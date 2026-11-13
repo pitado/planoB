@@ -177,7 +177,7 @@ tbl(['Critério','Peso','Evidência / condição'],[
 ],[116,48,314])
 S(18)
 H2('Evidências de teste disponíveis')
-P('Na revisão de 13/11/2026, foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>24 verificações HTTP</b>. O GitHub Actions também concluiu os testes JDBC com <b>PostgreSQL 16 real</b> e o teste ponta a ponta com inicialização da aplicação e operações CRUD pelo navegador HTTP. Evidência: <link href='https://github.com/pitado/planoB/actions/runs/43478898328' color='blue'>execução de CI aprovada</link>. O teste integrado não foi executado neste ambiente local.')
+P('Na revisão de 13/11/2026, foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>24 verificações HTTP</b>. O GitHub Actions também concluiu os testes JDBC com <b>PostgreSQL 16 real</b> e o teste ponta a ponta com inicialização da aplicação e operações CRUD pelo navegador HTTP. Evidência: <link href="https://github.com/pitado/planoB/actions/runs/43478898328" color="blue">execução de CI aprovada</link>. O teste integrado não foi executado neste ambiente local.')
 H2('Demonstração prática sugerida')
 P('Iniciar banco com Docker, executar testes, cadastrar ocorrência, alterar status, criar e concluir ação, verificar histórico, excluir registro e conferir persistência e cascata no banco. Apresentar código das classes e os diagramas ao explicar as escolhas.')
 H2('Pendências para entrega acadêmica')
