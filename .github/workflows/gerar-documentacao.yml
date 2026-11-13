@@ -1,0 +1,28 @@
+name: Plano B - gerar documentacao da AEP
+on:
+  push:
+    paths:
+      - '.github/workflows/gerar-documentacao.yml'
+permissions:
+  contents: write
+jobs:
+  documentacao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gerar PDF e diagramas UML
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq graphviz fonts-dejavu-core
+          python3 -m pip install --user reportlab pillow
+          bash scripts/render-diagrams.sh
+          python3 scripts/build-report.py
+          git config user.name 'Plano B - documentacao automatizada'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/Plano-B-AEP-Documentacao.pdf docs/diagrams/classes.png docs/diagrams/der.png docs/diagrams/classes.svg docs/diagrams/der.svg
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: gera PDF final e imagens dos diagramas'
+            git push origin HEAD:main
+          fi
