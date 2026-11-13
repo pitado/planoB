@@ -15,7 +15,7 @@ Entregar política real de transições de status e validações, explicação d
 
 **Critério de aceite:** domínio compila em Java 21, testes passam e a PR demonstra mudanças funcionais próprias.
 
-## Sprint 2 — Lucas: interface web
+## Sprint 2 — Lucas Guimarães Pereira: interface web
 
 **Issue:** [#2](https://github.com/pitado/planoB/issues/2)
 **Branch de trabalho:** `sprint/lucas-interface`
@@ -26,7 +26,7 @@ Entregar páginas do painel, listagem, cadastro, edição, detalhe, exclusão co
 
 **Critério de aceite:** demonstrar CRUD via HTTP com repositórios de teste, layout responsivo e testes próprios na PR.
 
-## Sprint 3 — Gustavo: PostgreSQL e persistência
+## Sprint 3 — Gustavo Krensiglova Lubacheski: PostgreSQL e persistência
 
 **Issue:** [#3](https://github.com/pitado/planoB/issues/3)
 **Branch de trabalho:** `sprint/gustavo-postgresql`
@@ -50,7 +50,7 @@ Entregar script SQL de criação e seed fictícia, repositórios JDBC parametriz
 | Integrante | Escopo predominante | Prova de contribuição |
 | --- | --- | --- |
 | Miguel | Domínio, regras e integração | Commits e PR da issue #1 |
-| Lucas | Interface, rotas e testes HTTP | Commits e PR da issue #2 |
-| Gustavo | Banco, JDBC e testes reais | Commits e PR da issue #3 |
+| Lucas Guimarães Pereira | Interface, rotas e testes HTTP | Commits e PR da issue #2 |
+| Gustavo Krensiglova Lubacheski | Banco, JDBC e testes reais | Commits e PR da issue #3 |
 
-Nomes completos e RAs serão acrescentados **depois** de fornecidos pelos próprios integrantes; não estão inventados neste planejamento.
+Os nomes completos de Lucas e Gustavo foram informados. **Os RAs não são publicados neste repositório público**; devem constar apenas do documento de identificação para entrega à instituição, com ciência dos integrantes. Ainda é necessário confirmar os dados de Miguel e registrar as contribuições reais de cada pessoa.
