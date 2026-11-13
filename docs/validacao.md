@@ -12,7 +12,7 @@
 ## Verificações realizadas em 13/11/2026
 
 - `bash scripts/test-domain.sh`: **35 verificações de domínio e casos de uso aprovadas**.
-- `bash scripts/test-domain.sh`: **22 verificações HTTP aprovadas**, incluindo os caminhos completos de criação, consulta, alteração e exclusão.
+- `bash scripts/test-domain.sh`: **24 verificações HTTP aprovadas**, incluindo os caminhos completos de criação, consulta, alteração e exclusão.
 - Compilação local: `javac --release 21` **sem erros**.
 - Integração PostgreSQL: **pendente** no ambiente local, que não tem servidor PostgreSQL, Maven nem dependências pré-instaladas; preparada para rodar pelo `scripts/test-db.sh` e GitHub Actions após publicação.
 

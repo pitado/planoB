@@ -177,7 +177,7 @@ tbl(['Critério','Peso','Evidência / condição'],[
 ],[116,48,314])
 S(18)
 H2('Evidências de teste disponíveis')
-P('Na data de elaboração, a compilação Java foi concluída e foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>22 verificações do servidor HTTP</b>, executadas com repositórios de teste em memória. O teste JDBC real foi implementado, mas <b>não executado localmente</b>, pois este ambiente não possui PostgreSQL e Maven prontos. Um workflow configura esse teste para execução após publicação.')
+P('Na data de elaboração, a compilação Java foi concluída e foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>24 verificações do servidor HTTP</b>, executadas com repositórios de teste em memória. O teste JDBC real foi implementado, mas <b>não executado localmente</b>, pois este ambiente não possui PostgreSQL e Maven prontos. Um workflow configura esse teste para execução após publicação.')
 H2('Demonstração prática sugerida')
 P('Iniciar banco com Docker, executar testes, cadastrar ocorrência, alterar status, criar e concluir ação, verificar histórico, excluir registro e conferir persistência e cascata no banco. Apresentar código das classes e os diagramas ao explicar as escolhas.')
 H2('Pendências para entrega acadêmica')
