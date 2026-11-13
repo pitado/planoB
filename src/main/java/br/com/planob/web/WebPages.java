@@ -83,7 +83,7 @@ public final class WebPages {
         String descricao = editing ? o.descricao() : "";
         int severidade = editing ? o.severidade() : 3;
         String statusControl = editing ? "<label>Situação<select name=\"status\">"
-                + Html.status(o.status(),false) + "</select></label>"
+                + Html.statusPermitidos(o.status()) + "</select></label>"
                 : "<p class=\"hint\">Uma nova ocorrência começa como <strong>Aberta</strong>.</p>";
         String main = heading("Registro de impacto",title,
                 "Preencha informações fictícias para testar o fluxo do Plano B.",

@@ -81,6 +81,21 @@ public final class Html {
         return h.toString();
     }
 
+    /**
+     * Apenas transições aceitas pela política do domínio aparecem no formulário.
+     * O serviço continua validando para impedir transições forçadas via HTTP.
+     */
+    public static String statusPermitidos(StatusOcorrencia atual) {
+        StringBuilder options = new StringBuilder();
+        for (StatusOcorrencia destino : StatusOcorrencia.values()) {
+            if (!PoliticaTransicaoStatus.permite(atual, destino)) continue;
+            options.append("<option value=\"").append(destino.name()).append("\"")
+                    .append(destino == atual ? " selected" : "").append(">")
+                    .append(esc(destino.descricao())).append("</option>");
+        }
+        return options.toString();
+    }
+
     public static String tabela(java.util.List<Ocorrencia> lista) {
         if(lista.isEmpty()) return "<div class=\"empty\"><strong>Nenhuma ocorrência encontrada.</strong><p>Registre um impacto ou revise os filtros da consulta.</p></div>";
         StringBuilder h = new StringBuilder("<div class=\"table-scroll\"><table><thead><tr><th>Ocorrência</th><th>Local</th><th>Situação</th><th>Prioridade</th></tr></thead><tbody>");

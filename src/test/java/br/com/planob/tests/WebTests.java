@@ -82,7 +82,11 @@ public final class WebTests {
             status(other,200);has(other,"0 registro(s)");
             status(get("/ocorrencias?tipo=INVALIDO"),400);
 
-            status(get("/ocorrencias/1/editar"),200);
+            var formularioAberta = get("/ocorrencias/1/editar");
+            status(formularioAberta,200);
+            has(formularioAberta,"value=\"EM_ANALISE\"");
+            check(!formularioAberta.body().contains("value=\"RESOLVIDA\""),
+                    "O formulário não deve oferecer transições de situação proibidas");
             var invalidJump=post("/ocorrencias/1/atualizar",
                 "tipo=VIA_OBSTRUIDA&bairro=Centro&logradouro=Rua+das+Flores&descricao=Nova&severidade=3&status=RESOLVIDA");
             status(invalidJump,400);has(invalidJump,"Transição");
@@ -92,6 +96,10 @@ public final class WebTests {
             var after=get("/ocorrencias/1");
             has(after,"Atualizada");has(after,"Em análise");has(after,"Histórico");
             check(repo.historico(1).size()==2,"Histórico de transições com abertura e análise");
+            var formularioAnalise = get("/ocorrencias/1/editar");
+            status(formularioAnalise,200);
+            has(formularioAnalise,"value=\"EM_RECUPERACAO\"");
+            has(formularioAnalise,"value=\"RESOLVIDA\"");
 
             status(post("/ocorrencias/1/acoes","titulo=Verificar+rua&responsavel=Equipe+do+bairro"),303);
             var withAction=get("/ocorrencias/1");has(withAction,"Verificar rua");has(withAction,"Equipe do bairro");
@@ -104,6 +112,8 @@ public final class WebTests {
             status(post("/ocorrencias","tipo=ALAGAMENTO&tipo=VIA_OBSTRUIDA&bairro=A&logradouro=Rua&descricao=Teste&severidade=3"),400);
             status(call("POST","/ocorrencias",body,"text/plain",null),400);
             status(call("POST","/ocorrencias",body,null,"https://site-fora.example"),400);
+            status(post("/ocorrencias",body+"&extra="+"x".repeat(8500)),400);
+            status(get("/ocorrencias?status=ABERTA&status=RESOLVIDA"),400);
             status(call("PUT","/ocorrencias",null,null,null),405);
 
             var confirmation=get("/ocorrencias/1/excluir");
