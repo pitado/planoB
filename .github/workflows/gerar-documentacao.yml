@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/gerar-documentacao.yml'
+      - 'scripts/build-report.py'
 permissions:
   contents: write
 jobs:

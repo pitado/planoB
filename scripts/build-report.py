@@ -177,11 +177,11 @@ tbl(['Critério','Peso','Evidência / condição'],[
 ],[116,48,314])
 S(18)
 H2('Evidências de teste disponíveis')
-P('Na data de elaboração, a compilação Java foi concluída e foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>24 verificações do servidor HTTP</b>, executadas com repositórios de teste em memória. O teste JDBC real foi implementado, mas <b>não executado localmente</b>, pois este ambiente não possui PostgreSQL e Maven prontos. Um workflow configura esse teste para execução após publicação.')
+P('Na revisão de 13/11/2026, foram aprovadas <b>35 verificações de domínio e CRUD</b> e <b>24 verificações HTTP</b>. O GitHub Actions também concluiu os testes JDBC com <b>PostgreSQL 16 real</b> e o teste ponta a ponta com inicialização da aplicação e operações CRUD pelo navegador HTTP. Evidência: <link href='https://github.com/pitado/planoB/actions/runs/43478898328' color='blue'>execução de CI aprovada</link>. O teste integrado não foi executado neste ambiente local.')
 H2('Demonstração prática sugerida')
 P('Iniciar banco com Docker, executar testes, cadastrar ocorrência, alterar status, criar e concluir ação, verificar histórico, excluir registro e conferir persistência e cascata no banco. Apresentar código das classes e os diagramas ao explicar as escolhas.')
 H2('Pendências para entrega acadêmica')
-P('1) Conferir o link público do GitHub e os resultados do Actions. 2) Rodar ou comprovar testes JDBC com PostgreSQL real. 3) Informar integrantes e contribuições efetivas. 4) Confirmar com o professor como o critério de planejamento será tratado sem a primeira entrega.')
+P('1) Informar os integrantes e suas contribuições efetivas no cronograma. 2) Confirmar com o professor a avaliação de aderência, pois o 1º bimestre não foi entregue. 3) Executar uma demonstração local antes da apresentação.')
 
 pdf=SimpleDocTemplate(str(OUT),pagesize=A4,rightMargin=20*mm,leftMargin=20*mm,topMargin=22*mm,bottomMargin=23*mm,title='Plano B - AEP 2026.2 | Documentação retrospectiva',author='Projeto Plano B (elaboração assistida)')
 pdf.build(story,onFirstPage=footer,onLaterPages=footer)
