@@ -1,83 +1,104 @@
 # Plano B
 
-**Plataforma acadêmica de resiliência urbana**, inspirada na necessidade de organizar interrupções e ações de recuperação após temporais em Maringá (PR). O projeto **não** oferece alertas oficiais, previsões meteorológicas nem atendimento de emergência.
+**Quando a cidade enfrenta uma crise, ter um próximo passo faz a diferença.**
 
-> **Situação da AEP:** este repositório inclui planejamento retrospectivo e implementação para o 2º bimestre de 2026. O planejamento do 1º bimestre **não foi entregue na época**; a avaliação da aderência depende do professor. Não se deve representar o material atual como uma entrega anterior.
+O **Plano B** é uma plataforma de **resiliência urbana e organização comunitária** pensada para ajudar moradores, comunidades e pequenos estabelecimentos a lidar com momentos críticos, como temporais, alagamentos, quedas de energia, danos estruturais e vias bloqueadas.
 
-## Objetivo e ODS
+A proposta nasceu da observação dos impactos de eventos climáticos severos em **Maringá, Paraná**. Em situações assim, os problemas não acontecem isoladamente: uma árvore caída pode bloquear uma rua, uma interrupção de energia pode prejudicar estabelecimentos e uma família pode precisar organizar várias ações antes de retomar sua rotina.
 
-ODS 11 — Cidades e comunidades sustentáveis; ODS 13 — Ação contra a mudança global do clima. O Plano B registra ocorrências por bairro, calcula prioridade operacional orientativa, relaciona ações de recuperação e mantém um histórico das mudanças de status.
+O Plano B busca reunir essas informações de maneira simples e organizada, permitindo **registrar ocorrências, acompanhar sua situação e planejar ações de recuperação**.
 
-## Requisitos funcionais
+> **Estado atual:** o projeto é um protótipo funcional para execução local, com dados de demonstração. Não é um serviço de emergência, não emite alertas oficiais e ainda não recebe relatos públicos verificados.
 
-| ID | Requisito | Evidência |
-|---|---|---|
-| RF01 | Cadastrar ocorrências com tipo, bairro, endereço, descrição e severidade (1–5). | Formulário e `JdbcOcorrenciaRepository.criar` |
-| RF02 | Listar, consultar e filtrar ocorrências por status e tipo. | Telas de listagem e detalhe |
-| RF03 | Editar ocorrências existentes. | Formulário de edição e `atualizar` |
-| RF04 | Excluir uma ocorrência e seus vínculos. | Exclusão com confirmação |
-| RF05 | Classificar a prioridade orientativa segundo tipo e severidade. | `Ocorrencia.calcularIndiceImpacto` e subclasses |
-| RF06 | Criar e concluir ações de recuperação associadas a ocorrências. | `JdbcAcaoRepository` e detalhe |
-| RF07 | Registrar histórico quando a situação de uma ocorrência mudar. | Tabela `historico_status` |
-| RF08 | Exibir resumo de ocorrências por situação. | Painel inicial |
+## O problema que queremos resolver
 
-## Cronograma de execução (planejamento elaborado no 2º bimestre)
+Depois de um evento crítico, informações sobre problemas e providências podem ficar espalhadas entre conversas, mensagens e anotações. Isso dificulta entender o que aconteceu, acompanhar o que já foi resolvido e identificar o que ainda precisa de atenção.
 
-| Etapa | Data de referência | Responsável |
-|---|---|---|
-| Levantamento do problema, escopo e requisitos | 13/11/2026 | Equipe do projeto (a definir) |
-| Modelo orientado a objetos, diagramas e banco | 13/11/2026 | Equipe do projeto (a definir) |
-| CRUD, persistência e ações de recuperação | 13/11/2026 | Equipe do projeto (a definir) |
-| Testes, validação e documentação | 13/11/2026 | Equipe do projeto (a definir) |
+A ideia do Plano B é oferecer um ponto de organização para essa jornada: **do registro do impacto à recuperação**.
 
-**Atribuições dos integrantes:** preencher com os nomes e contribuições reais. Não atribuir commits nem tarefas a colegas que não participaram.
+## Como o Plano B funciona
 
-## Executar
+1. **Registre um impacto:** informe o tipo de ocorrência, bairro, endereço, descrição e severidade.
+2. **Acompanhe a situação:** consulte os registros, filtre por tipo ou status e visualize um índice orientativo de prioridade.
+3. **Organize a recuperação:** cadastre ações, indique responsáveis e marque tarefas concluídas.
+4. **Consulte o histórico:** veja as mudanças de situação para acompanhar a evolução do registro.
 
-Requisitos: **Java 21**, **Maven 3.9+**, **Docker com Compose** (ou PostgreSQL 16 acessível). Em terminal:
+O índice de prioridade é uma regra de demonstração do software: **não representa avaliação oficial de risco nem substitui orientação profissional ou de órgãos públicos**.
+
+## Funcionalidades disponíveis
+
+- **Painel de ocorrências:** visão geral dos registros e de suas situações.
+- **Cadastro e edição:** criação, consulta, atualização e exclusão de ocorrências.
+- **Filtros:** busca de registros por tipo e situação.
+- **Prioridade orientativa:** cálculo de um índice com base no tipo e na severidade informados.
+- **Ações de recuperação:** cadastro de providências associadas a cada ocorrência, com acompanhamento de conclusão.
+- **Histórico:** registro das alterações de situação.
+- **Persistência real:** dados armazenados em PostgreSQL, com operações transacionais e integridade entre tabelas.
+
+### Próximos passos
+
+A evolução prevista inclui uma experiência mais completa de acompanhamento comunitário, melhorias de acessibilidade, relatórios e mecanismos de validação de informações. **Essas melhorias ainda não fazem parte da versão atual.**
+
+## Tecnologias
+
+| Camada | Tecnologia |
+|---|---|
+| Linguagem | Java 21 |
+| Banco de dados | PostgreSQL 16 |
+| Persistência | JDBC com SQL parametrizado |
+| Aplicação web | HTTP Server do JDK, HTML e CSS |
+| Ambiente local | Docker Compose e Maven |
+| Qualidade | Testes de domínio, HTTP e integração com PostgreSQL via GitHub Actions |
+
+A aplicação foi organizada em camadas, separando **domínio**, **serviços**, **persistência** e **interface web**.
+
+## Executar localmente
+
+Requisitos: **Java 21**, **Maven 3.9+** e **Docker com Compose** (ou PostgreSQL 16 configurado).
 
 ```bash
 docker compose up -d postgres
 mvn -q compile exec:java
 ```
 
-Acesse `http://localhost:8080`. O banco de desenvolvimento usa as credenciais de exemplo do `compose.yaml`. Se utilizar outro servidor, ajuste `DB_URL`, `DB_USER` e `DB_PASSWORD` (não versione credenciais de produção). O Docker executa `schema.sql` e `seed.sql` apenas no **primeiro** início de um volume novo.
+Depois, abra **http://localhost:8080**.
+
+Para utilizar outro banco, configure as variáveis `DB_URL`, `DB_USER` e `DB_PASSWORD`. O arquivo `compose.yaml` contém apenas credenciais de desenvolvimento. Os scripts de inicialização do Docker são executados na primeira criação de um volume novo.
 
 ### Testes
 
 ```bash
 bash scripts/test-domain.sh
-# Com Docker iniciado e dependências Maven disponíveis:
 bash scripts/test-db.sh
 ```
 
-O primeiro script usa apenas o JDK para testar regras de POO sem internet. O segundo exige PostgreSQL e o driver JDBC resolvido pelo Maven.
+O segundo script exige um PostgreSQL em execução e as dependências Maven disponíveis. A integração contínua também testa o fluxo HTTP completo usando um banco real.
 
-**Execução confirmada no GitHub Actions em 13/11/2026:** testes de domínio/HTTP e integração com PostgreSQL real aprovados. [Ver execução](https://github.com/pitado/planoB/actions/runs/43477811155).
+[Consultar as execuções do GitHub Actions](https://github.com/pitado/planoB/actions).
 
-## Materiais acadêmicos
+## Estrutura do repositório
 
-- [Documento formal da AEP (PDF)](docs/Plano-B-AEP-Documentacao.pdf) — material elaborado no 2º bimestre, não substitui retroativamente a primeira entrega.
-- [Diagrama de classes visual](docs/diagrams/classes.svg) e [DER visual](docs/diagrams/der.svg).
-- [Matriz de conformidade e testes](docs/validacao.md).
-- [Publicação e histórico de commits](docs/publicacao.md).
-- [Descoberta, justificativa e arquitetura](docs/escopo-e-arquitetura.md).
-- [Cronograma e responsabilidades](docs/cronograma.md).
+```text
+src/
+  main/java/       Regras de negócio, serviços, repositórios e web
+  main/resources/  Estilos da interface
+  test/java/       Testes automatizados
+database/          Esquema SQL e dados fictícios de demonstração
+docs/              Arquitetura, diagramas, cronograma e documentação
+scripts/           Ferramentas de teste e validação
+.github/workflows/ Integração contínua
+```
 
-**Repositório público:** https://github.com/pitado/planoB. **Antes de entregar ao professor:** verificar os testes PostgreSQL no GitHub Actions, preencher integrantes e contribuições reais e discutir com o professor a ausência da primeira entrega.
+Para conhecer a arquitetura, consulte o [documento de escopo](docs/escopo-e-arquitetura.md), o [diagrama de classes](docs/diagrams/classes.svg) e o [diagrama de banco de dados](docs/diagrams/der.svg).
 
-## Estrutura
+## Segurança e responsabilidade
 
-- `/src/main/java`: domínio (POO), serviços, repositórios JDBC e servidor web;
-- `/database`: criação de tabelas, restrições e dados **fictícios** para demonstração;
-- `/docs`: levantamento, justificativas, cronograma e diagramas;
-- `/src/test`: testes de domínio e integração;
-- `/.github/workflows`: integração contínua.
+O Plano B tem como objetivo **organizar informações e apoiar a preparação e a recuperação**, não substituir a Defesa Civil, os bombeiros, a concessionária de energia ou outras fontes oficiais.
 
-## Limites e uso seguro
+A versão atual utiliza dados fictícios e **não possui autenticação nem autorização suficientes para exposição pública**. Antes de disponibilizá-la para uma comunidade real, será necessário adicionar verificação de relatos, proteção de dados, controles de acesso e procedimentos de moderação.
 
-A prioridade calculada é apenas um **índice acadêmico de triagem**, não uma indicação de risco real. Os registros da demonstração são fictícios. O aplicativo é um MVP para rodar localmente: **não possui login nem mecanismos completos de autorização**, portanto não deve ser publicado na internet sem controles adicionais. Em emergência real, procure canais oficiais e serviços públicos apropriados.
+## Sobre o projeto
 
-## Licença e autoria
+O Plano B se inspira em necessidades concretas de continuidade urbana e se relaciona aos **ODS 11 — Cidades e Comunidades Sustentáveis** e **ODS 13 — Ação Climática**.
 
-Projeto acadêmico desenvolvido com apoio de IA. Commits gerados neste ambiente representam implementação assistida, não são prova de colaboração de outros integrantes.
+A documentação de desenvolvimento, a organização do trabalho e os registros específicos da atividade universitária estão na pasta [`docs/`](docs/). O histórico de commits deve refletir as contribuições efetivamente realizadas por cada participante.
