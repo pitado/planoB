@@ -40,6 +40,7 @@ public final class WebTests {
             resposta(http, base, "GET", "/ocorrencias/1", null, 200, "Concluída");
             resposta(http, base, "POST", "/ocorrencias",
                     "tipo=ALAGAMENTO&bairro=Centro&logradouro=Rua&descricao=Erro&severidade=9", 400, null);
+            resposta(http, base, "GET", "/ocorrencias/1/excluir", null, 200, "Sim, excluir definitivamente");
             resposta(http, base, "POST", "/ocorrencias/1/excluir", "", 303, null);
             resposta(http, base, "GET", "/ocorrencias/1", null, 404, "não encontrada");
             resposta(http, base, "GET", "/caminho-invalido", null, 404, null);

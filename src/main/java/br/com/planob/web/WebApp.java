@@ -90,6 +90,9 @@ public final class WebApp {
                 if (metodo.equals("GET") && partes.length == 4 && partes[3].equals("editar")) {
                     responderHtml(troca, paginas.formulario(service.consultar(id))); return;
                 }
+                if (metodo.equals("GET") && partes.length == 4 && partes[3].equals("excluir")) {
+                    responderHtml(troca, paginas.confirmarExclusao(service.consultar(id))); return;
+                }
                 if (metodo.equals("POST") && partes.length == 4) {
                     Map<String, String> campos = formularioPost(troca);
                     switch (partes[3]) {

@@ -90,7 +90,7 @@ public final class WebPages {
                 <div class="back"><a href="/ocorrencias">← Voltar às ocorrências</a></div>
                 <div class="page-head"><div><span class="eyebrow">REGISTRO #%d</span><h1>%s</h1>
                 <p>%s · %s</p></div><div class="page-actions"><a class="btn dark" href="/ocorrencias/%d/editar">Editar registro</a>
-                <form method="post" action="/ocorrencias/%d/excluir"><button class="btn danger" type="submit">Excluir</button></form></div></div>
+                <a class="btn danger" href="/ocorrencias/%d/excluir">Excluir</a></div></div>
                 <div class="columns"><section class="surface"><div class="section-head"><h2>Informações</h2>%s</div>
                 <div class="details"><div><small>Severidade</small><strong>%d / 5</strong></div>
                 <div><small>Prioridade orientativa</small><strong>%s · %d/100</strong></div>
@@ -149,6 +149,21 @@ public final class WebPages {
         StringBuilder tabela = new StringBuilder();
         for (Ocorrencia item : lista) tabela.append(Html.resumo(item));
         return tabela.toString();
+    }
+
+    public String confirmarExclusao(Ocorrencia ocorrencia) {
+        String corpo = """
+                <div class="back"><a href="/ocorrencias/%d">← Voltar ao registro</a></div>
+                <div class="page-head"><div><span class="eyebrow">CONFIRMAÇÃO NECESSÁRIA</span>
+                <h1>Excluir a ocorrência #%d?</h1>
+                <p>Esta operação exclui também as ações de recuperação e o histórico vinculados. Não é possível desfazer.</p></div></div>
+                <section class="surface form-surface"><p><b>%s</b> — %s</p>
+                <div class="page-actions"><form method="post" action="/ocorrencias/%d/excluir">
+                <button class="btn danger" type="submit">Sim, excluir definitivamente</button></form>
+                <a class="btn dark" href="/ocorrencias/%d">Cancelar</a></div></section>
+                """.formatted(ocorrencia.id(), ocorrencia.id(), Html.escape(ocorrencia.tipo().descricao()),
+                Html.escape(ocorrencia.localizacao().bairro()), ocorrencia.id(), ocorrencia.id());
+        return Html.layout("Confirmar exclusão", corpo, "ocorrencias");
     }
 
     public String sobre() {
