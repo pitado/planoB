@@ -53,6 +53,8 @@ bash scripts/test-db.sh
 
 O primeiro script usa apenas o JDK para testar regras de POO sem internet. O segundo exige PostgreSQL e o driver JDBC resolvido pelo Maven.
 
+**Execução confirmada no GitHub Actions em 13/11/2026:** testes de domínio/HTTP e integração com PostgreSQL real aprovados. [Ver execução](https://github.com/pitado/planoB/actions/runs/43477811155).
+
 ## Materiais acadêmicos
 
 - [Documento formal da AEP (PDF)](docs/Plano-B-AEP-Documentacao.pdf) — material elaborado no 2º bimestre, não substitui retroativamente a primeira entrega.

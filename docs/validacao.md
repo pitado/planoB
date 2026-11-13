@@ -7,14 +7,14 @@
 | Aderência ao planejamento anterior | 0,2 | Escopo retrospectivo no README e `docs/escopo-e-arquitetura.md` | **Não comprovável**: 1º bimestre não foi entregue |
 | POO: interface/classe abstrata, herança e `@Override` | 0,3 | `Ocorrencia`, subclasses, `OcorrenciaRepository`, `AcaoRepository` | Compilado e testado localmente |
 | CRUD funcional da entidade principal | 0,3 | `JdbcOcorrenciaRepository`, `OcorrenciaService`, formulários GET/POST | Fluxo HTTP testado com dublês; JDBC depende do banco |
-| Persistência em BD, SQL em `/database` | 0,2 | `database/schema.sql`, `JdbcOcorrenciaRepository`, `JdbcAcaoRepository` | Código compilado; integração real automatizada na CI, ainda não executada localmente |
+| Persistência em BD, SQL em `/database` | 0,2 | `database/schema.sql`, `JdbcOcorrenciaRepository`, `JdbcAcaoRepository` | Integração com PostgreSQL real aprovada no GitHub Actions; não executada localmente |
 
 ## Verificações realizadas em 13/11/2026
 
 - `bash scripts/test-domain.sh`: **35 verificações de domínio e casos de uso aprovadas**.
 - `bash scripts/test-domain.sh`: **24 verificações HTTP aprovadas**, incluindo os caminhos completos de criação, consulta, alteração e exclusão.
 - Compilação local: `javac --release 21` **sem erros**.
-- Integração PostgreSQL: **pendente** no ambiente local, que não tem servidor PostgreSQL, Maven nem dependências pré-instaladas; preparada para rodar pelo `scripts/test-db.sh` e GitHub Actions após publicação.
+- Integração PostgreSQL: **aprovada no GitHub Actions em 13/11/2026**, com um serviço PostgreSQL 16 real, aplicação dos scripts SQL e execução de `scripts/test-db.sh`. Não executada no ambiente local. [Execução registrada](https://github.com/pitado/planoB/actions/runs/43477811155).
 
 Resultados de testes não executados nunca devem ser descritos como aprovados. O workflow configura PostgreSQL real para validar operações de INSERT, SELECT, UPDATE, DELETE, histórico transacional e cascata de ações.
 
