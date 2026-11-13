@@ -84,10 +84,9 @@ Confira [o planejamento e os critérios de aceite](docs/sprints.md). A versão a
 
 ```text
 src/
-  main/java/       Regras de negócio, serviços, repositórios e web
-  main/resources/  Estilos da interface
-  test/java/       Testes automatizados
-database/          Esquema SQL e dados fictícios de demonstração
+  main/java/       Domínio, serviços e contratos; web em construção
+  test/java/       Testes de domínio
+database/          Contratos de persistência; schema em construção
 docs/              Arquitetura, diagramas, cronograma e documentação
 scripts/           Ferramentas de teste e validação
 .github/workflows/ Integração contínua
@@ -105,4 +104,4 @@ A versão atual utiliza dados fictícios e **não possui autenticação nem auto
 
 O Plano B se inspira em necessidades concretas de continuidade urbana e se relaciona aos **ODS 11 — Cidades e Comunidades Sustentáveis** e **ODS 13 — Ação Climática**.
 
-A documentação de desenvolvimento, a organização do trabalho e os registros específicos da atividade universitária estão na pasta [`docs/`](docs/). O histórico de commits deve refletir as contribuições efetivamente realizadas por cada participante.
+O código é organizado de forma colaborativa, com atividades e decisões técnicas registradas na pasta [`docs/`](docs/). A evolução do projeto pode ser acompanhada pelas sprints e pelo histórico de contribuições.
