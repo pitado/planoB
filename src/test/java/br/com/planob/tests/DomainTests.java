@@ -15,6 +15,7 @@ public final class DomainTests {
         crudDoServico();
         historicoDasTransicoes();
         politicaDeTransicoes();
+        explicacaoDoIndice();
         acaoLigadaAOcorrencia();
         System.out.println("APROVADO: " + verificacoes + " verificações de domínio, CRUD e apresentação.");
     }
@@ -139,6 +140,22 @@ public final class DomainTests {
         verificar(repo.historico(id).size() == 4, "Registra todas as transições válidas");
         verificar(service.consultar(id).status() == analise,
                 "Reabertura chega ao estado de análise");
+    }
+
+    private static void explicacaoDoIndice() {
+        Ocorrencia via = OcorrenciaFactory.nova(TipoOcorrencia.VIA_OBSTRUIDA,
+                new Localizacao("Bairro", "Rua"), "Teste da explicação", 3);
+        String explicacao = via.explicarIndiceImpacto();
+        verificar(explicacao.contains("Índice 60/100"), "Índice numérico coerente");
+        verificar(explicacao.contains("45 da severidade + 15 pelo tipo"),
+                "Explicação mostra os dois componentes");
+        verificar(explicacao.contains("sem valor de alerta oficial"),
+                "Explicação traz limite de uso");
+
+        Ocorrencia dano = OcorrenciaFactory.nova(TipoOcorrencia.DANO_ESTRUTURAL,
+                new Localizacao("Bairro", "Rua"), "Exemplo", 5);
+        verificar(dano.explicarIndiceImpacto().contains("Índice 100/100"),
+                "Explicação respeita o teto do índice");
     }
 
     private static void acaoLigadaAOcorrencia() {

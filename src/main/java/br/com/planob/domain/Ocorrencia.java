@@ -39,6 +39,19 @@ public abstract class Ocorrencia {
         return Prioridade.doIndice(calcularIndiceImpacto());
     }
 
+    /**
+     * Justifica os valores usados no índice para facilitar a demonstração.
+     * O resultado é didático: não é risco real nem indicação de atendimento.
+     */
+    public final String explicarIndiceImpacto() {
+        int parcelaSeveridade = severidade * 15;
+        int pesoTipo = pesoOperacional();
+        int indice = calcularIndiceImpacto();
+        return "Índice " + indice + "/100 = mínimo(100, " + parcelaSeveridade
+                + " da severidade + " + pesoTipo + " pelo tipo). Faixa: "
+                + prioridade().descricao() + ". Classificação ilustrativa, sem valor de alerta oficial.";
+    }
+
     public Long id() { return id; }
     public TipoOcorrencia tipo() { return tipo; }
     public Localizacao localizacao() { return localizacao; }
