@@ -4,7 +4,7 @@ O protótipo anterior foi preservado na branch `arquivo/mvp-completo-2026-11-13`
 
 | Etapa | Responsável | Evidência e aceite | Situação |
 | --- | --- | --- | --- |
-| Sprint 1 — Regras e testes de domínio | Miguel | [Issue #1](https://github.com/pitado/planoB/issues/1), PR e CI | A iniciar |
+| Sprint 1 — Regras e testes de domínio | Miguel | [PR #4](https://github.com/pitado/planoB/pull/4) e [CI aprovado](https://github.com/pitado/planoB/actions/runs/43488876141) | Concluída (implementação assistida, revisar para apresentação) |
 | Sprint 2 — UI, rotas e testes HTTP | Lucas Guimarães Pereira | [Issue #2](https://github.com/pitado/planoB/issues/2), PR e CI | A iniciar |
 | Sprint 3 — SQL, JDBC e testes reais | Gustavo Krensiglova Lubacheski | [Issue #3](https://github.com/pitado/planoB/issues/3), PR e CI | A iniciar |
 | Integração, revisão e demonstração | Grupo | CI integrado e material final | A iniciar |

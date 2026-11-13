@@ -15,6 +15,8 @@ Entregar política real de transições de status e validações, explicação d
 
 **Critério de aceite:** domínio compila em Java 21, testes passam e a PR demonstra mudanças funcionais próprias.
 
+**Situação: concluída e integrada.** [PR #4](https://github.com/pitado/planoB/pull/4), com políticas de status, explicação de prioridade, testes e UML. [CI aprovado na main](https://github.com/pitado/planoB/actions/runs/43488876141). Implementação assistida por IA a pedido do responsável; a revisão e explicação acadêmica continuam sendo responsabilidade de quem apresentar.
+
 ## Sprint 2 — Lucas Guimarães Pereira: interface web
 
 **Issue:** [#2](https://github.com/pitado/planoB/issues/2)
