@@ -24,5 +24,7 @@ jobs:
           git add docs/Plano-B-AEP-Documentacao.pdf docs/diagrams/classes.png docs/diagrams/der.png docs/diagrams/classes.svg docs/diagrams/der.svg
           if ! git diff --cached --quiet; then
             git commit -m 'docs: gera PDF final e imagens dos diagramas'
+            git fetch origin main
+            git rebase origin/main
             git push origin HEAD:main
           fi
