@@ -1,0 +1,45 @@
+name: Importar etapas do Plano B
+on:
+  push:
+    paths:
+      - '.bootstrap/source.b64'
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Reconstruir as etapas do codigo
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/plano-b-stages
+          base64 --decode .bootstrap/source.b64 | xz --decompress | tar -x -C /tmp/plano-b-stages
+          git config user.name 'Plano B - importacao tecnica'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python3 - <<'PY'
+          import json
+          import shutil
+          import subprocess
+          from pathlib import Path
+          root = Path("/tmp/plano-b-stages")
+          entries = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+          for entry in entries:
+              for change in entry["changes"]:
+                  target = Path(change["path"])
+                  if change["deleted"]:
+                      target.unlink(missing_ok=True)
+                  else:
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      shutil.copyfile(root / f'{entry["n"]:02d}' / change["path"], target)
+              subprocess.run(["git", "add", "--all"], check=True)
+              diff = subprocess.run(["git", "diff", "--cached", "--quiet"], check=False)
+              if diff.returncode:
+                  subprocess.run(["git", "commit", "-m", entry["message"]], check=True)
+          PY
+          git rm -f .bootstrap/source.b64 .github/workflows/import.yml
+          git commit -m 'chore: remove pacote temporario de importacao'
+          git push origin HEAD:main
