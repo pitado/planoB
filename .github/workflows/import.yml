@@ -29,6 +29,8 @@ jobs:
           entries = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
           for entry in entries:
               for change in entry["changes"]:
+                  if change["path"].startswith(".github/workflows/"):
+                      continue
                   target = Path(change["path"])
                   if change["deleted"]:
                       target.unlink(missing_ok=True)
@@ -40,6 +42,6 @@ jobs:
               if diff.returncode:
                   subprocess.run(["git", "commit", "-m", entry["message"]], check=True)
           PY
-          git rm -f .bootstrap/source.b64 .github/workflows/import.yml
+          git rm -f .bootstrap/source.b64
           git commit -m 'chore: remove pacote temporario de importacao'
           git push origin HEAD:main
