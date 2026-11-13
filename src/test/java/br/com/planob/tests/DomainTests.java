@@ -14,6 +14,8 @@ public final class DomainTests {
         validacaoDeCampos();
         crudDoServico();
         historicoDasTransicoes();
+        politicaDeTransicoes();
+        explicacaoDoIndice();
         acaoLigadaAOcorrencia();
         System.out.println("APROVADO: " + verificacoes + " verificações de domínio, CRUD e apresentação.");
     }
@@ -76,9 +78,84 @@ public final class DomainTests {
         OcorrenciaService service = new OcorrenciaService(repo);
         long id = service.cadastrar(TipoOcorrencia.ALAGAMENTO, "Bairro", "Rua", "Exemplo", 2);
         service.atualizar(id, TipoOcorrencia.ALAGAMENTO, "Bairro", "Rua", "Exemplo", 2,
+                StatusOcorrencia.EM_ANALISE);
+        service.atualizar(id, TipoOcorrencia.ALAGAMENTO, "Bairro", "Rua", "Exemplo", 2,
                 StatusOcorrencia.EM_RECUPERACAO);
-        verificar(repo.historico(id).size() == 2, "Registra abertura e transição");
-        verificar(repo.historico(id).get(1).anterior() == StatusOcorrencia.ABERTA, "Guarda status anterior");
+        verificar(repo.historico(id).size() == 3, "Registra abertura e duas transições");
+        verificar(repo.historico(id).get(1).anterior() == StatusOcorrencia.ABERTA,
+                "Guarda status anterior da primeira transição");
+        verificar(repo.historico(id).get(2).anterior() == StatusOcorrencia.EM_ANALISE,
+                "Guarda status anterior da segunda transição");
+    }
+
+    private static void politicaDeTransicoes() {
+        var aberta = StatusOcorrencia.ABERTA;
+        var analise = StatusOcorrencia.EM_ANALISE;
+        var recuperacao = StatusOcorrencia.EM_RECUPERACAO;
+        var resolvida = StatusOcorrencia.RESOLVIDA;
+
+        verificar(PoliticaTransicaoStatus.permite(aberta, aberta),
+                "Atualização sem mudança de situação é válida");
+        verificar(PoliticaTransicaoStatus.permite(aberta, analise),
+                "Abertura pode seguir para análise");
+        verificar(PoliticaTransicaoStatus.permite(analise, recuperacao),
+                "Análise pode seguir para recuperação");
+        verificar(PoliticaTransicaoStatus.permite(analise, resolvida),
+                "Análise pode encerrar ocorrência sem recuperação");
+        verificar(PoliticaTransicaoStatus.permite(recuperacao, analise),
+                "Recuperação pode voltar para análise");
+        verificar(PoliticaTransicaoStatus.permite(recuperacao, resolvida),
+                "Recuperação pode ser concluída");
+        verificar(PoliticaTransicaoStatus.permite(resolvida, analise),
+                "Ocorrência resolvida pode ser reaberta para análise");
+        verificar(!PoliticaTransicaoStatus.permite(aberta, recuperacao),
+                "Não permite pular a análise");
+        verificar(!PoliticaTransicaoStatus.permite(aberta, resolvida),
+                "Não permite encerramento sem análise");
+        verificar(!PoliticaTransicaoStatus.permite(resolvida, aberta),
+                "Não permite reabrir pulando a análise");
+        verificar(!PoliticaTransicaoStatus.permite(analise, aberta),
+                "Não permite retornar para aberta");
+        falha(() -> PoliticaTransicaoStatus.exigirTransicaoValida(aberta, resolvida),
+                "Transição inválida gera erro compreensível");
+
+        InMemoryFixtures.Ocorrencias repo = new InMemoryFixtures.Ocorrencias();
+        OcorrenciaService service = new OcorrenciaService(repo);
+        long id = service.cadastrar(TipoOcorrencia.FALHA_ENERGIA,
+                "Centro", "Rua Modelo", "Ocorrência fictícia", 3);
+        falha(() -> service.atualizar(id, TipoOcorrencia.FALHA_ENERGIA,
+                "Centro", "Rua Modelo", "Tentativa inválida", 3, resolvida),
+                "Serviço deve bloquear alteração inválida");
+        verificar(service.consultar(id).status() == aberta,
+                "Situação permanece inalterada após erro");
+        verificar(repo.historico(id).size() == 1,
+                "Transição rejeitada não registra histórico indevido");
+
+        service.atualizar(id, TipoOcorrencia.FALHA_ENERGIA,
+                "Centro", "Rua Modelo", "Em análise", 3, analise);
+        service.atualizar(id, TipoOcorrencia.FALHA_ENERGIA,
+                "Centro", "Rua Modelo", "Resolvida sem ação", 3, resolvida);
+        service.atualizar(id, TipoOcorrencia.FALHA_ENERGIA,
+                "Centro", "Rua Modelo", "Reaberta para análise", 3, analise);
+        verificar(repo.historico(id).size() == 4, "Registra todas as transições válidas");
+        verificar(service.consultar(id).status() == analise,
+                "Reabertura chega ao estado de análise");
+    }
+
+    private static void explicacaoDoIndice() {
+        Ocorrencia via = OcorrenciaFactory.nova(TipoOcorrencia.VIA_OBSTRUIDA,
+                new Localizacao("Bairro", "Rua"), "Teste da explicação", 3);
+        String explicacao = via.explicarIndiceImpacto();
+        verificar(explicacao.contains("Índice 60/100"), "Índice numérico coerente");
+        verificar(explicacao.contains("45 da severidade + 15 pelo tipo"),
+                "Explicação mostra os dois componentes");
+        verificar(explicacao.contains("sem valor de alerta oficial"),
+                "Explicação traz limite de uso");
+
+        Ocorrencia dano = OcorrenciaFactory.nova(TipoOcorrencia.DANO_ESTRUTURAL,
+                new Localizacao("Bairro", "Rua"), "Exemplo", 5);
+        verificar(dano.explicarIndiceImpacto().contains("Índice 100/100"),
+                "Explicação respeita o teto do índice");
     }
 
     private static void acaoLigadaAOcorrencia() {

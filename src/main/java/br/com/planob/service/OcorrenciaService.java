@@ -3,6 +3,7 @@ package br.com.planob.service;
 import br.com.planob.domain.Localizacao;
 import br.com.planob.domain.Ocorrencia;
 import br.com.planob.domain.OcorrenciaFactory;
+import br.com.planob.domain.PoliticaTransicaoStatus;
 import br.com.planob.domain.StatusOcorrencia;
 import br.com.planob.domain.TipoOcorrencia;
 import br.com.planob.domain.Validacao;
@@ -30,6 +31,7 @@ public final class OcorrenciaService {
     public void atualizar(long id, TipoOcorrencia tipo, String bairro, String logradouro, String descricao,
                           int severidade, StatusOcorrencia status) {
         Ocorrencia anterior = consultar(id);
+        PoliticaTransicaoStatus.exigirTransicaoValida(anterior.status(), status);
         Ocorrencia atualizada = OcorrenciaFactory.reconstituir(anterior.id(), tipo,
                 new Localizacao(bairro, logradouro), descricao, severidade, status, anterior.criadaEm());
         if (!repository.atualizar(atualizada)) {

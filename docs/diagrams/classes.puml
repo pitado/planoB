@@ -1,12 +1,16 @@
 @startuml
 skinparam classAttributeIconSize 0
+
 abstract class Ocorrencia {
   - id: Long
   - tipo: TipoOcorrencia
   - localizacao: Localizacao
+  - descricao: String
   - severidade: int
   - status: StatusOcorrencia
   + calcularIndiceImpacto(): int
+  + prioridade(): Prioridade
+  + explicarIndiceImpacto(): String
   # pesoOperacional(): int
 }
 class FalhaEnergia
@@ -14,27 +18,55 @@ class ViaObstruida
 class Alagamento
 class DanoEstrutural
 class Localizacao
-interface OcorrenciaRepository {
-  + criar(ocorrencia)
-  + buscar(id)
-  + listar()
-  + atualizar(ocorrencia)
-  + excluir(id)
+enum StatusOcorrencia
+class PoliticaTransicaoStatus {
+  + permite(atual, destino): boolean
+  + exigirTransicaoValida(atual, destino): void
 }
-class JdbcOcorrenciaRepository
-class AcaoRecuperacao
+class OcorrenciaFactory {
+  + nova(tipo, localizacao, descricao, severidade): Ocorrencia
+  + reconstituir(...): Ocorrencia
+}
+class OcorrenciaService {
+  + cadastrar(...): long
+  + consultar(id): Ocorrencia
+  + atualizar(...): void
+  + excluir(id): void
+}
+interface OcorrenciaRepository {
+  + criar(ocorrencia): long
+  + buscar(id): Optional
+  + listar(status, tipo): List
+  + atualizar(ocorrencia): boolean
+  + excluir(id): boolean
+}
 interface AcaoRepository
-class JdbcAcaoRepository
+class AcaoRecuperacao
+
 Ocorrencia <|-- FalhaEnergia
 Ocorrencia <|-- ViaObstruida
 Ocorrencia <|-- Alagamento
 Ocorrencia <|-- DanoEstrutural
-Ocorrencia *-- "1" Localizacao
+Ocorrencia "1" *-- "1" Localizacao
 Ocorrencia "1" *-- "0..*" AcaoRecuperacao : organiza
-OcorrenciaRepository <|.. JdbcOcorrenciaRepository
-AcaoRepository <|.. JdbcAcaoRepository
+OcorrenciaService --> OcorrenciaRepository : utiliza
+OcorrenciaService ..> PoliticaTransicaoStatus : valida
+OcorrenciaFactory ..> Ocorrencia : constroi
+PoliticaTransicaoStatus ..> StatusOcorrencia
+
 note bottom of Ocorrencia
-Subclasses sobrescrevem pesoOperacional()
-com @Override (polimorfismo)
+pesoOperacional() é sobrescrito com @Override
+em cada subtipo (polimorfismo).
+Índice é meramente demonstrativo.
+end note
+
+note right of OcorrenciaRepository
+A implementação PostgreSQL é responsabilidade
+da Sprint 3 (Gustavo).
+end note
+
+note right of OcorrenciaService
+A interface HTTP é responsabilidade
+da Sprint 2 (Lucas).
 end note
 @enduml
