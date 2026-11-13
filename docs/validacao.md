@@ -1,39 +1,25 @@
-# Matriz de conformidade e validação da AEP
+# Validação do Plano B após a divisão em sprints
 
-## Requisitos de correção
+**Situação em 13/11/2026:** a branch `main` é um ponto de partida de desenvolvimento com domínio Java e contratos de persistência. O MVP completo foi arquivado em [`arquivo/mvp-completo-2026-11-13`](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13), sem alteração retroativa dos commits.
 
-| Critério do PDF | Peso | Evidência neste projeto | Situação de verificação |
-|---|---:|---|---|
-| Aderência ao planejamento anterior | 0,2 | Escopo retrospectivo no README e `docs/escopo-e-arquitetura.md` | **Não comprovável**: 1º bimestre não foi entregue |
-| POO: interface/classe abstrata, herança e `@Override` | 0,3 | `Ocorrencia`, subclasses, `OcorrenciaRepository`, `AcaoRepository` | Compilado e testado localmente |
-| CRUD funcional da entidade principal | 0,3 | `JdbcOcorrenciaRepository`, `OcorrenciaService`, formulários GET/POST | Fluxo HTTP testado com dublês; JDBC depende do banco |
-| Persistência em BD, SQL em `/database` | 0,2 | `database/schema.sql`, `JdbcOcorrenciaRepository`, `JdbcAcaoRepository` | Integração com PostgreSQL real aprovada no GitHub Actions; não executada localmente |
+| Critério | Evidência na main | Responsável / situação |
+|---|---|---|
+| Planejamento anterior | Não entregue no primeiro bimestre | Depende de orientação do professor |
+| Classe abstrata, herança e polimorfismo | `Ocorrencia`, quatro subclasses e `@Override` | Base disponível; evolução na Sprint 1 |
+| CRUD funcional pela interface | Contrato `OcorrenciaRepository` e serviço | Pendente Sprint 2 + integração |
+| CRUD persistente no PostgreSQL | Contratos e configuração preparada | Pendente Sprint 3 |
+| Scripts SQL em `/database` | Diretório com instruções | Pendente Sprint 3 |
+| UML e DER | Arquivos de modelagem em `docs/diagrams` | Revisar após PRs |
+| Testes e prova de funcionamento | `bash scripts/test-domain.sh` | Verificar Actions na main; reativar integração após PRs |
 
-## Verificações realizadas em 13/11/2026
+**O que não é permitido afirmar:** que a versão atual da `main` já tem CRUD completo em PostgreSQL, interface web funcional ou que os integrantes participaram de commits antigos. Os testes históricos aprovados pertencem ao MVP arquivado.
 
-- `bash scripts/test-domain.sh`: **35 verificações de domínio e casos de uso aprovadas**.
-- `bash scripts/test-domain.sh`: **24 verificações HTTP aprovadas**, incluindo os caminhos completos de criação, consulta, alteração e exclusão.
-- Compilação local: `javac --release 21` **sem erros**.
-- Integração PostgreSQL: **aprovada no GitHub Actions em 13/11/2026**, com um serviço PostgreSQL 16 real, aplicação dos scripts SQL e execução de `scripts/test-db.sh`. Não executada no ambiente local. [Execução registrada](https://github.com/pitado/planoB/actions/runs/43477811155).
+## Critérios finais para a entrega
 
-Resultados de testes não executados nunca devem ser descritos como aprovados. O workflow configura PostgreSQL real para validar operações de INSERT, SELECT, UPDATE, DELETE, histórico transacional e cascata de ações.
-
-## Plano de demonstração ao professor
-
-1. Subir `docker compose up -d postgres` e confirmar que o serviço está saudável.
-2. Executar `bash scripts/test-db.sh` e registrar a saída de sucesso.
-3. Iniciar `mvn -q compile exec:java` e abrir `http://localhost:8080`.
-4. Demonstrar as quatro operações de CRUD em uma ocorrência fictícia.
-5. Atualizar a situação e mostrar o registro automático do histórico.
-6. Criar e concluir uma ação de recuperação vinculada à ocorrência.
-7. Explicar o `@Override` nas quatro subclasses, o contrato da interface e a composição 1:N.
-8. Exibir `schema.sql` e `docs/diagrams`.
-9. Conferir os commits reais de cada integrante, quando houver.
-
-## Limitações e riscos
-
-- Não existe histórico de primeira entrega, logo os 0,2 de aderência podem não ser atribuídos.
-- A rubrica tem inconsistência entre 0,3 (tabela de POO) e 0,4 (observação final); confirmar interpretação com professor.
-- Interface sem autenticação, exclusivamente local. Não publicar como sistema público.
-- Não há validação de ocorrências reais nem conexão com órgãos públicos.
-- Cálculo de prioridade é didático; não usar para tomada de decisão operacional em emergência.
+- [ ] Sprint 1 revisada e integrada.
+- [ ] Sprint 2 revisada e integrada.
+- [ ] Sprint 3 revisada e integrada.
+- [ ] Fluxo ponta a ponta via HTTP e PostgreSQL real aprovado.
+- [ ] Arquivos SQL, diagramas, cronograma e PDF compatíveis com a versão final.
+- [ ] Nomes, RAs e contribuições verdadeiras registrados.
+- [ ] Situação da primeira entrega esclarecida com o professor.

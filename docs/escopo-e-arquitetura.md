@@ -1,3 +1,5 @@
+> **Estado atual:** este arquivo descreve a arquitetura-alvo. A interface e as implementações JDBC serão reintegradas pelas sprints [Lucas](https://github.com/pitado/planoB/issues/2) e [Gustavo](https://github.com/pitado/planoB/issues/3). Para a versão completa anterior, consulte a branch `arquivo/mvp-completo-2026-11-13`.
+
 # Descoberta, concepção e justificativa técnica
 
 ## Dor e partes interessadas

@@ -13,3 +13,7 @@ O histórico Git local original também está preservado no arquivo Plano-B-Hist
 3. Consultar o documento de escopo, os diagramas UML/DER e o PDF formal.
 4. Registrar nomes e contribuições reais dos integrantes no cronograma.
 5. Confirmar com o professor como avaliará a aderência ao planejamento do primeiro bimestre, que não foi entregue.
+
+## Reorganização por sprints (13/11/2026)
+
+O código completo anterior continua disponível na branch `arquivo/mvp-completo-2026-11-13`. A branch `main` foi reduzida a uma base de domínio compilável, com issues separadas por módulo para Miguel, Lucas e Gustavo. Os commits antigos não são atribuídos a novos integrantes. A entrega final será revalidada após as PRs.

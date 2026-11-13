@@ -2,7 +2,6 @@ package br.com.planob.tests;
 
 import br.com.planob.domain.*;
 import br.com.planob.service.OcorrenciaService;
-import br.com.planob.web.Html;
 import java.util.NoSuchElementException;
 
 /** Testes de regras e de casos de uso, executados com `java` sem JUnit ou banco. */
@@ -16,7 +15,6 @@ public final class DomainTests {
         crudDoServico();
         historicoDasTransicoes();
         acaoLigadaAOcorrencia();
-        htmlProtegeEntrada();
         System.out.println("APROVADO: " + verificacoes + " verificações de domínio, CRUD e apresentação.");
     }
 
@@ -90,13 +88,6 @@ public final class DomainTests {
         verificar(repo.concluir(id, 7), "Ação pode ser concluída");
         verificar(!repo.concluir(id, 7), "Ação concluída não é concluída duas vezes");
         verificar(!repo.concluir(id, 8), "Outra ocorrência não altera ação");
-    }
-
-    private static void htmlProtegeEntrada() {
-        String entrada = "<script>alert('x')</script> & \"teste\"";
-        String escapado = Html.escape(entrada);
-        verificar(!escapado.contains("<script>"), "Escape HTML remove elemento ativo");
-        verificar(escapado.contains("&lt;script&gt;"), "Escape HTML preserva texto visível");
     }
 
     private static void falha(Runnable caso, String mensagem) {

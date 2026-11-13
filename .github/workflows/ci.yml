@@ -1,9 +1,9 @@
-name: Plano B - compilacao e testes
+name: Plano B - nucleo Java
 on:
   push:
   pull_request:
 jobs:
-  dominio-e-http:
+  dominio:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -11,43 +11,5 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Compilar e testar regras e rotas HTTP
+      - name: Compilar e testar dominio
         run: bash scripts/test-domain.sh
-
-  postgres-jdbc:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: plano_b
-          POSTGRES_USER: planob
-          POSTGRES_PASSWORD: planob_dev
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U planob -d plano_b"
-          --health-interval 3s
-          --health-timeout 3s
-          --health-retries 20
-    env:
-      DB_URL: jdbc:postgresql://localhost:5432/plano_b
-      DB_USER: planob
-      DB_PASSWORD: planob_dev
-      PGPASSWORD: planob_dev
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-      - name: Instalar cliente PostgreSQL
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
-      - name: Aplicar schema e seed ficticia
-        run: |
-          psql -v ON_ERROR_STOP=1 -h 127.0.0.1 -U planob -d plano_b -f database/schema.sql
-          psql -v ON_ERROR_STOP=1 -h 127.0.0.1 -U planob -d plano_b -f database/seed.sql
-      - name: Testar persistencia com PostgreSQL real
-        run: bash scripts/test-db.sh
-      - name: Testar aplicacao iniciada com CRUD HTTP e PostgreSQL
-        run: bash scripts/test-smoke.sh
