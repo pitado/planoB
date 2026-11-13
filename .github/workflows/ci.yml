@@ -49,3 +49,5 @@ jobs:
           psql -v ON_ERROR_STOP=1 -h 127.0.0.1 -U planob -d plano_b -f database/seed.sql
       - name: Testar persistencia com PostgreSQL real
         run: bash scripts/test-db.sh
+      - name: Testar aplicacao iniciada com CRUD HTTP e PostgreSQL
+        run: bash scripts/test-smoke.sh
