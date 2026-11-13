@@ -1,0 +1,40 @@
+@startuml
+skinparam classAttributeIconSize 0
+abstract class Ocorrencia {
+  - id: Long
+  - tipo: TipoOcorrencia
+  - localizacao: Localizacao
+  - severidade: int
+  - status: StatusOcorrencia
+  + calcularIndiceImpacto(): int
+  # pesoOperacional(): int
+}
+class FalhaEnergia
+class ViaObstruida
+class Alagamento
+class DanoEstrutural
+class Localizacao
+interface OcorrenciaRepository {
+  + criar(ocorrencia)
+  + buscar(id)
+  + listar()
+  + atualizar(ocorrencia)
+  + excluir(id)
+}
+class JdbcOcorrenciaRepository
+class AcaoRecuperacao
+interface AcaoRepository
+class JdbcAcaoRepository
+Ocorrencia <|-- FalhaEnergia
+Ocorrencia <|-- ViaObstruida
+Ocorrencia <|-- Alagamento
+Ocorrencia <|-- DanoEstrutural
+Ocorrencia *-- "1" Localizacao
+Ocorrencia "1" *-- "0..*" AcaoRecuperacao : organiza
+OcorrenciaRepository <|.. JdbcOcorrenciaRepository
+AcaoRepository <|.. JdbcAcaoRepository
+note bottom of Ocorrencia
+Subclasses sobrescrevem pesoOperacional()
+com @Override (polimorfismo)
+end note
+@enduml

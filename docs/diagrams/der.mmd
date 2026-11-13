@@ -1,0 +1,28 @@
+erDiagram
+  OCORRENCIAS ||--o{ ACOES_RECUPERACAO : organiza
+  OCORRENCIAS ||--o{ HISTORICO_STATUS : registra
+  OCORRENCIAS {
+    bigint id PK
+    varchar tipo
+    varchar bairro
+    varchar logradouro
+    varchar descricao
+    int severidade
+    varchar status
+    timestamptz criada_em
+  }
+  ACOES_RECUPERACAO {
+    bigint id PK
+    bigint ocorrencia_id FK
+    varchar titulo
+    varchar responsavel
+    boolean concluida
+    timestamptz criada_em
+  }
+  HISTORICO_STATUS {
+    bigint id PK
+    bigint ocorrencia_id FK
+    varchar status_anterior
+    varchar status_novo
+    timestamptz alterada_em
+  }
