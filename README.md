@@ -53,6 +53,16 @@ bash scripts/test-db.sh
 
 O primeiro script usa apenas o JDK para testar regras de POO sem internet. O segundo exige PostgreSQL e o driver JDBC resolvido pelo Maven.
 
+## Materiais acadêmicos
+
+- [Documento formal da AEP (PDF)](docs/Plano-B-AEP-Documentacao.pdf) — material elaborado no 2º bimestre, não substitui retroativamente a primeira entrega.
+- [Diagrama de classes visual](docs/diagrams/classes.svg) e [DER visual](docs/diagrams/der.svg).
+- [Matriz de conformidade e testes](docs/validacao.md).
+- [Descoberta, justificativa e arquitetura](docs/escopo-e-arquitetura.md).
+- [Cronograma e responsabilidades](docs/cronograma.md).
+
+**Antes de enviar ao professor:** criar o repositório remoto público `plano-b`, inserir seu link válido no documento PDF e no README, executar o teste PostgreSQL e preencher os integrantes/contribuições reais. O vínculo GitHub ainda não foi criado nesta versão local.
+
 ## Estrutura
 
 - `/src/main/java`: domínio (POO), serviços, repositórios JDBC e servidor web;

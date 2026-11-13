@@ -1,0 +1,10 @@
+digraph der {
+  graph [rankdir=LR, bgcolor="white", pad="0.2", nodesep="0.55", ranksep="0.75", fontname="DejaVu Sans"];
+  node [shape=plain, fontname="DejaVu Sans"];
+  edge [fontname="DejaVu Sans", fontsize=10, color="#567563", penwidth=1.6];
+  ocorrencias [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9" COLOR="#9eada0"><TR><TD BGCOLOR="#304b38"><FONT COLOR="white"><B>OCORRENCIAS</B></FONT></TD></TR><TR><TD ALIGN="LEFT">PK id BIGSERIAL</TD></TR><TR><TD ALIGN="LEFT">tipo VARCHAR(30)<BR/>bairro VARCHAR(120)<BR/>logradouro VARCHAR(180)<BR/>descricao VARCHAR(1200)<BR/>severidade INT [1..5]<BR/>status VARCHAR(30)<BR/>criada_em TIMESTAMPTZ</TD></TR></TABLE> >];
+  acoes [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9" COLOR="#9eada0"><TR><TD BGCOLOR="#e8eddf"><B>ACOES_RECUPERACAO</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGSERIAL<BR/>FK ocorrencia_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">titulo VARCHAR(160)<BR/>responsavel VARCHAR(120)<BR/>concluida BOOLEAN<BR/>criada_em TIMESTAMPTZ</TD></TR></TABLE> >];
+  historico [label=< <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="9" COLOR="#9eada0"><TR><TD BGCOLOR="#f3e6d1"><B>HISTORICO_STATUS</B></TD></TR><TR><TD ALIGN="LEFT">PK id BIGSERIAL<BR/>FK ocorrencia_id BIGINT</TD></TR><TR><TD ALIGN="LEFT">status_anterior VARCHAR(30)<BR/>status_novo VARCHAR(30)<BR/>alterada_em TIMESTAMPTZ</TD></TR></TABLE> >];
+  ocorrencias -> acoes [label="1 : N (ações)", arrowhead=crow];
+  ocorrencias -> historico [label="1 : N (mudanças)", arrowhead=crow];
+}

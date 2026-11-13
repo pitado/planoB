@@ -1,0 +1,21 @@
+digraph classes {
+  graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.36", ranksep="0.72", splines=polyline, fontname="DejaVu Sans"];
+  node [shape=plain, fontname="DejaVu Sans"];
+  edge [fontname="DejaVu Sans", fontsize=10, color="#607567", penwidth=1.4];
+  Ocorrencia [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#304b38"><FONT COLOR="white"><B>&lt;&lt;abstract&gt;&gt; Ocorrencia</B></FONT></TD></TR><TR><TD ALIGN="LEFT">id: Long<BR/>tipo: TipoOcorrencia<BR/>localizacao: Localizacao<BR/>severidade: int<BR/>status: StatusOcorrencia</TD></TR><TR><TD ALIGN="LEFT">+ calcularIndiceImpacto(): int<BR/># pesoOperacional(): int</TD></TR></TABLE> >];
+  FalhaEnergia [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#e6ecdf"><B>FalhaEnergia</B></TD></TR><TR><TD>+ pesoOperacional(): int</TD></TR></TABLE> >];
+  ViaObstruida [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#e6ecdf"><B>ViaObstruida</B></TD></TR><TR><TD>+ pesoOperacional(): int</TD></TR></TABLE> >];
+  Alagamento [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#e6ecdf"><B>Alagamento</B></TD></TR><TR><TD>+ pesoOperacional(): int</TD></TR></TABLE> >];
+  DanoEstrutural [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#e6ecdf"><B>DanoEstrutural</B></TD></TR><TR><TD>+ pesoOperacional(): int</TD></TR></TABLE> >];
+  Localizacao [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#f0e7d6"><B>Localizacao</B></TD></TR><TR><TD>bairro: String<BR/>logradouro: String</TD></TR></TABLE> >];
+  Acao [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#f0e7d6"><B>AcaoRecuperacao</B></TD></TR><TR><TD>ocorrenciaId: long<BR/>titulo: String<BR/>responsavel: String<BR/>concluida: boolean</TD></TR></TABLE> >];
+  Repository [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#304b38"><FONT COLOR="white"><B>&lt;&lt;interface&gt;&gt;<BR/>OcorrenciaRepository</B></FONT></TD></TR><TR><TD ALIGN="LEFT">+ criar / buscar / listar<BR/>+ atualizar / excluir</TD></TR></TABLE> >];
+  JdbcRepository [label=< <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" COLOR="#9eada0"><TR><TD BGCOLOR="#e6ecdf"><B>JdbcOcorrenciaRepository</B></TD></TR></TABLE> >];
+  FalhaEnergia -> Ocorrencia [arrowhead=empty];
+  ViaObstruida -> Ocorrencia [arrowhead=empty];
+  Alagamento -> Ocorrencia [arrowhead=empty];
+  DanoEstrutural -> Ocorrencia [arrowhead=empty];
+  Ocorrencia -> Localizacao [dir=both, arrowtail=diamond, arrowhead=none, label="1 : 1", constraint=false];
+  Ocorrencia -> Acao [dir=both, arrowtail=diamond, arrowhead=none, label="1 : 0..*", constraint=false];
+  JdbcRepository -> Repository [arrowhead=empty, style=dashed];
+}
