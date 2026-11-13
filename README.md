@@ -58,6 +58,7 @@ O primeiro script usa apenas o JDK para testar regras de POO sem internet. O seg
 - [Documento formal da AEP (PDF)](docs/Plano-B-AEP-Documentacao.pdf) — material elaborado no 2º bimestre, não substitui retroativamente a primeira entrega.
 - [Diagrama de classes visual](docs/diagrams/classes.svg) e [DER visual](docs/diagrams/der.svg).
 - [Matriz de conformidade e testes](docs/validacao.md).
+- [Como publicar no GitHub preservando os commits](docs/publicacao.md).
 - [Descoberta, justificativa e arquitetura](docs/escopo-e-arquitetura.md).
 - [Cronograma e responsabilidades](docs/cronograma.md).
 
