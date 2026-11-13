@@ -163,7 +163,7 @@ tbl(['Data referência','Atividade','Responsável'],[
 ],[95,250,133])
 S(23)
 H2('Repositório GitHub')
-P('Nome destinado: `plano-b`. <b>O endereço remoto ainda não estava criado na elaboração deste documento.</b> Inserir o link público válido antes da submissão; o PDF da AEP exige um link acessível. Os commits locais foram separados em etapas reais de desenvolvimento, sem simular participação de colegas.')
+P('Repositório público: <link href="https://github.com/pitado/planoB" color="blue">https://github.com/pitado/planoB</link>. O código foi organizado em etapas de desenvolvimento no histórico Git, sem simular participação de colegas. A primeira entrega não foi realizada.')
 H2('Estrutura de repositório')
 P('`src/main/java` (domínio, serviço, JDBC e web), `src/test/java` (testes), `database` (schema e seed), `docs` (arquitetura, diagramas e relatório), `scripts` (rotinas) e `.github/workflows` (CI).')
 new()
@@ -181,7 +181,7 @@ P('Na data de elaboração, a compilação Java foi concluída e foram aprovadas
 H2('Demonstração prática sugerida')
 P('Iniciar banco com Docker, executar testes, cadastrar ocorrência, alterar status, criar e concluir ação, verificar histórico, excluir registro e conferir persistência e cascata no banco. Apresentar código das classes e os diagramas ao explicar as escolhas.')
 H2('Pendências para entrega acadêmica')
-P('1) Criar/publicar o repositório e inserir seu URL válido. 2) Rodar testes JDBC com PostgreSQL real. 3) Informar integrantes e suas contribuições efetivas. 4) Confirmar com o professor como o critério de planejamento será tratado sem a primeira entrega.')
+P('1) Conferir o link público do GitHub e os resultados do Actions. 2) Rodar ou comprovar testes JDBC com PostgreSQL real. 3) Informar integrantes e contribuições efetivas. 4) Confirmar com o professor como o critério de planejamento será tratado sem a primeira entrega.')
 
 pdf=SimpleDocTemplate(str(OUT),pagesize=A4,rightMargin=20*mm,leftMargin=20*mm,topMargin=22*mm,bottomMargin=23*mm,title='Plano B - AEP 2026.2 | Documentação retrospectiva',author='Projeto Plano B (elaboração assistida)')
 pdf.build(story,onFirstPage=footer,onLaterPages=footer)
