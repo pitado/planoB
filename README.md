@@ -68,7 +68,7 @@ O comando executa uma demonstração de domínio no terminal. **Ainda não inici
 bash scripts/test-domain.sh
 ```
 
-Os testes de interface e banco serão reintegrados pelas Pull Requests correspondentes. O PostgreSQL 16 pode ser iniciado com `docker compose up -d postgres`, mas o esquema SQL está sendo implementado na Sprint de Gustavo.
+Os testes de interface e banco serão reintegrados pelas Pull Requests correspondentes. O PostgreSQL 16 pode ser iniciado com `docker compose up -d postgres`, e aplica `database/schema.sql` e `database/seed.sql` na primeira subida. O teste de integração é executado com `bash scripts/test-db.sh` (veja [`database/README.md`](database/README.md)).
 
 [Acompanhar os testes no GitHub Actions](https://github.com/pitado/planoB/actions).
 
@@ -86,7 +86,7 @@ Confira [o planejamento e os critérios de aceite](docs/sprints.md). A versão a
 src/
   main/java/       Domínio, serviços e contratos; web em construção
   test/java/       Testes de domínio
-database/          Contratos de persistência; schema em construção
+database/          Esquema e seed fictícia do PostgreSQL
 docs/              Arquitetura, diagramas, cronograma e documentação
 scripts/           Ferramentas de teste e validação
 .github/workflows/ Integração contínua

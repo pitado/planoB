@@ -1,13 +1,13 @@
 erDiagram
-  OCORRENCIAS ||--o{ ACOES_RECUPERACAO : organiza
-  OCORRENCIAS ||--o{ HISTORICO_STATUS : registra
+  OCORRENCIAS ||--o{ ACOES_RECUPERACAO : organiza (CASCADE)
+  OCORRENCIAS ||--o{ HISTORICO_STATUS : registra (CASCADE)
   OCORRENCIAS {
     bigint id PK
     varchar tipo
     varchar bairro
     varchar logradouro
     varchar descricao
-    int severidade
+    smallint severidade
     varchar status
     timestamptz criada_em
   }
