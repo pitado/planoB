@@ -13,3 +13,31 @@ jobs:
           java-version: '21'
       - name: Compilar e testar dominio
         run: bash scripts/test-domain.sh
+  postgresql:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: plano_b
+          POSTGRES_USER: planob
+          POSTGRES_PASSWORD: planob_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U planob -d plano_b"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/plano_b
+      DB_USER: planob
+      DB_PASSWORD: planob_dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Integracao JDBC com PostgreSQL 16 real
+        run: bash scripts/test-db.sh
