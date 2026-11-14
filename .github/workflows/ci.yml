@@ -1,7 +1,9 @@
-name: Plano B - nucleo Java
+name: Plano B - validação integrada
 on:
   push:
   pull_request:
+permissions:
+  contents: read
 jobs:
   dominio:
     runs-on: ubuntu-latest
@@ -11,8 +13,18 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Compilar e testar dominio
+      - name: Testar domínio e POO
         run: bash scripts/test-domain.sh
+  interface-http:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Testar interface HTTP com repositórios em memória
+        run: bash scripts/test-web.sh
   postgresql:
     runs-on: ubuntu-latest
     services:
@@ -39,5 +51,5 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Integracao JDBC com PostgreSQL 16 real
+      - name: Testar persistência JDBC e transações no PostgreSQL 16
         run: bash scripts/test-db.sh
