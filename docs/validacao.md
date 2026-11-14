@@ -7,10 +7,10 @@
 | Planejamento anterior | Não entregue no primeiro bimestre | Depende de orientação do professor |
 | Classe abstrata, herança e polimorfismo | `Ocorrencia`, subclasses e `@Override`; política de transições e justificativa do índice | [Sprint 1 integrada — PR #4](https://github.com/pitado/planoB/pull/4) |
 | CRUD funcional pela interface | Contrato `OcorrenciaRepository` e serviço | Pendente Sprint 2 + integração |
-| CRUD persistente no PostgreSQL | Contratos e configuração preparada | Pendente Sprint 3 |
-| Scripts SQL em `/database` | Diretório com instruções | Pendente Sprint 3 |
+| CRUD persistente no PostgreSQL | `JdbcOcorrenciaRepository`, `JdbcAcaoRepository`, `JdbcIntegrationTests` | Sprint 3 em PR (`sprint/gustavo-postgresql`); aguardando CI |
+| Scripts SQL em `/database` | `schema.sql`, `seed.sql` e README | Sprint 3 em PR |
 | UML e DER | Arquivos de modelagem em `docs/diagrams` | Revisar após PRs |
-| Testes e prova de funcionamento | `bash scripts/test-domain.sh` | Verificar Actions na main; reativar integração após PRs |
+| Testes e prova de funcionamento | `bash scripts/test-domain.sh`; `bash scripts/test-db.sh` (PostgreSQL real) | Verificar Actions na main; reativar integração após PRs |
 
 **Evidência de CI do domínio:** [GitHub Actions na main, aprovado](https://github.com/pitado/planoB/actions/runs/43488876141). A interface HTTP e o PostgreSQL continuam sendo atividades abertas de Lucas e Gustavo, respectivamente.
 
