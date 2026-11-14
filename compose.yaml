@@ -9,6 +9,8 @@ services:
       - "127.0.0.1:5432:5432"
     volumes:
       - planob_pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U planob -d plano_b"]
       interval: 3s
