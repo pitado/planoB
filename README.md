@@ -2,106 +2,109 @@
 
 **Quando a cidade enfrenta uma crise, ter um próximo passo faz a diferença.**
 
-O **Plano B** é uma plataforma de **resiliência urbana e organização comunitária** pensada para ajudar moradores, comunidades e pequenos estabelecimentos a lidar com momentos críticos, como temporais, alagamentos, quedas de energia, danos estruturais e vias bloqueadas.
+O **Plano B** é um protótipo de resiliência urbana e organização comunitária para moradores, pequenos estabelecimentos e grupos locais acompanharem impactos de temporais, alagamentos, danos estruturais, bloqueios de vias e interrupções de energia. O tema nasceu da necessidade de organizar informações e tarefas de recuperação após acontecimentos críticos em **Maringá (PR)**.
 
-A proposta nasceu da observação dos impactos de eventos climáticos severos em **Maringá, Paraná**. Em situações assim, os problemas não acontecem isoladamente: uma árvore caída pode bloquear uma rua, uma interrupção de energia pode prejudicar estabelecimentos e uma família pode precisar organizar várias ações antes de retomar sua rotina.
+**É um protótipo acadêmico local com dados fictícios**, não um serviço de emergência nem fonte de alertas oficiais. Não publicar sem autenticação, proteção de dados e moderação.
 
-O Plano B busca reunir essas informações de maneira simples e organizada, permitindo **registrar ocorrências, acompanhar sua situação e planejar ações de recuperação**.
+## Requisitos funcionais — AEP
 
-> **Estado atual:** o núcleo de regras de negócio está disponível em Java. A interface web e a persistência PostgreSQL estão sendo desenvolvidas em sprints separadas. Não é um serviço de emergência, não emite alertas oficiais e não recebe relatos públicos verificados.
+| Código | O sistema deve... | Evidência |
+|---|---|---|
+| RF01 | Cadastrar ocorrência com localização e severidade | Formulário e JDBC |
+| RF02 | Consultar/listar com filtros por tipo e situação | Tela de listagem |
+| RF03 | Atualizar dados e situação da ocorrência | Edição e política de transições |
+| RF04 | Excluir ocorrência e dependentes | Confirmação e ON DELETE CASCADE |
+| RF05 | Calcular índice ilustrativo por tipo e severidade | Herança e @Override |
+| RF06 | Adicionar e concluir ações de recuperação | Formulário de ações e JDBC |
+| RF07 | Registrar histórico de alterações de situação | Transações PostgreSQL |
+| RF08 | Mostrar painel com totais por situação | Página inicial |
 
-## O problema que queremos resolver
+**O índice é apenas orientativo, não uma avaliação técnica de perigo ou urgência.**
 
-Depois de um evento crítico, informações sobre problemas e providências podem ficar espalhadas entre conversas, mensagens e anotações. Isso dificulta entender o que aconteceu, acompanhar o que já foi resolvido e identificar o que ainda precisa de atenção.
+## Rodar a aplicação integrada
 
-A ideia do Plano B é oferecer um ponto de organização para essa jornada: **do registro do impacto à recuperação**.
+**Pré-requisitos:** Java 21, Maven 3.9+ e Docker Compose. Portas locais 5432 (banco) e 8080 (site).
 
-## Como o Plano B foi pensado para funcionar
+1. Inicie o PostgreSQL 16 (no primeiro uso, aplica schema e seed fictícia):
 
-1. **Registre um impacto:** informe o tipo de ocorrência, bairro, endereço, descrição e severidade.
-2. **Acompanhe a situação:** consulte os registros, filtre por tipo ou status e visualize um índice orientativo de prioridade.
-3. **Organize a recuperação:** cadastre ações, indique responsáveis e marque tarefas concluídas.
-4. **Consulte o histórico:** veja as mudanças de situação para acompanhar a evolução do registro.
+   ```bash
+   docker compose up -d postgres
+   ```
 
-O índice de prioridade é uma regra de demonstração do software: **não representa avaliação oficial de risco nem substitui orientação profissional ou de órgãos públicos**.
+2. Execute a aplicação integrada ao banco:
 
-## Funcionalidades em desenvolvimento
+   ```bash
+   mvn -q compile exec:java
+   ```
 
-- **Painel de ocorrências:** visão geral dos registros e de suas situações (Sprint Lucas).
-- **Cadastro e edição:** criação, consulta, atualização e exclusão de ocorrências (Sprints Lucas e Gustavo).
-- **Filtros:** consulta dos registros por tipo e situação (Sprint Lucas).
-- **Prioridade orientativa:** cálculo inicial implementado em Java; evolução das regras na Sprint Miguel.
-- **Ações de recuperação:** acompanhamento de providências por ocorrência (Sprints Lucas e Gustavo).
-- **Histórico:** registro persistente das alterações de situação (Sprint Gustavo).
-- **Persistência PostgreSQL:** operações transacionais e integridade entre tabelas (Sprint Gustavo).
+3. Abra **http://127.0.0.1:8080**. Cadastre, edite, consulte, filtre e exclua ocorrências, além de registrar tarefas.
 
-### Próximos passos
+O ponto de entrada `br.com.planob.Main` usa `WebApp` com `JdbcOcorrenciaRepository` e `JdbcAcaoRepository`. **O modo integrado persiste os dados no PostgreSQL**. Se o banco estiver indisponível, a inicialização falha com uma mensagem de diagnóstico.
 
-A evolução prevista inclui uma experiência mais completa de acompanhamento comunitário, melhorias de acessibilidade, relatórios e mecanismos de validação de informações. **Essas melhorias ainda não fazem parte da versão atual.**
-
-## Tecnologias
-
-| Camada | Tecnologia |
+| Variável | Padrão de desenvolvimento local |
 |---|---|
-| Linguagem | Java 21 |
-| Banco de dados | PostgreSQL 16 |
-| Persistência | JDBC com SQL parametrizado |
-| Aplicação web | HTTP Server do JDK, HTML e CSS |
-| Ambiente local | Docker Compose e Maven |
-| Qualidade | Testes de domínio, HTTP e integração com PostgreSQL via GitHub Actions |
+| `DB_URL` | `jdbc:postgresql://localhost:5432/plano_b` |
+| `DB_USER` | `planob` |
+| `DB_PASSWORD` | `planob_dev` |
+| `PORT` | `8080` |
 
-A aplicação foi organizada em camadas, separando **domínio**, **serviços**, **persistência** e **interface web**.
+Os valores são apenas demonstrativos; não os utilize em produção.
 
-## Executar o núcleo Java
-
-Requisitos: **Java 21** e **Maven 3.9+**.
+### Testes
 
 ```bash
-mvn -q compile exec:java
+bash scripts/test-domain.sh    # POO e regras
+bash scripts/test-web.sh       # HTTP e CRUD com dublês em memória
+bash scripts/test-db.sh        # JDBC em PostgreSQL 16 real
+bash scripts/test-http-db.sh   # HTTP + banco, reinício e exclusão em cascata
 ```
 
-O comando executa uma demonstração de domínio no terminal. **Ainda não inicia uma interface web**: essa entrega faz parte da Sprint de Lucas.
+Os últimos dois scripts precisam do PostgreSQL funcionando. O [GitHub Actions](https://github.com/pitado/planoB/actions) inicia PostgreSQL 16 isolado e testa as camadas.
 
-### Testes disponíveis na branch principal
+**Modo demonstrativo sem banco:** execute `bash scripts/test-web.sh` e `java -cp ".build/classes:src/main/resources" br.com.planob.web.WebMain`. Esse modo usa memória volátil, não comprova persistência e **não atende isoladamente ao critério de BD da AEP**.
 
-```bash
-bash scripts/test-domain.sh
-```
+## Justificativa e arquitetura
 
-Os testes de interface e banco serão reintegrados pelas Pull Requests correspondentes. O PostgreSQL 16 pode ser iniciado com `docker compose up -d postgres`, e aplica `database/schema.sql` e `database/seed.sql` na primeira subida. O teste de integração é executado com `bash scripts/test-db.sh` (veja [`database/README.md`](database/README.md)).
+| Camada | Tecnologia | Por quê |
+|---|---|---|
+| Domínio | Java 21, classe abstrata, interfaces | Tipagem, herança, polimorfismo |
+| Regras | `OcorrenciaService` e `PoliticaTransicaoStatus` | Regras independentes de HTTP |
+| Interface | HTTP Server JDK, HTML e CSS responsivo | Simplicidade local |
+| Persistência | JDBC parametrizado | CRUD real e transações |
+| Banco | PostgreSQL 16 | Integridade e relacionamentos 1:N |
+| Ambiente | Docker Compose | Execução reproduzível |
 
-[Acompanhar os testes no GitHub Actions](https://github.com/pitado/planoB/actions).
+**Fluxo:** navegador → `WebApp` → `OcorrenciaService` → contratos de repositório → JDBC → PostgreSQL.
 
-### Organização das sprints
+**POO demonstrada:** classe abstrata `Ocorrencia`; subclasses `FalhaEnergia`, `ViaObstruida`, `Alagamento` e `DanoEstrutural`; `@Override` em `pesoOperacional()`; interfaces de repositório; uma ocorrência com várias ações.
 
-- [Sprint 1 — Miguel: domínio e regras de negócio](https://github.com/pitado/planoB/issues/1)
-- [Sprint 2 — Lucas: interface web e testes HTTP](https://github.com/pitado/planoB/issues/2)
-- [Sprint 3 — Gustavo: PostgreSQL, JDBC e integração](https://github.com/pitado/planoB/issues/3)
+[Diagrama UML](docs/diagrams/classes.puml) · [DER](docs/diagrams/der.mmd) · [SQL](database/schema.sql) · [Escopo](docs/escopo-e-arquitetura.md)
 
-Confira [o planejamento e os critérios de aceite](docs/sprints.md). A versão anterior do MVP foi preservada na branch [`arquivo/mvp-completo-2026-11-13`](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13), sem atribuir sua autoria retroativamente a integrantes.
+## Cronograma e responsabilidades
 
-## Estrutura do repositório
+*Registra a reorganização da equipe no segundo bimestre; não constitui prova de uma primeira entrega.*
+
+| Data de referência | Etapa | Responsável | Evidência |
+|---|---|---|---|
+| 13/11/2026 | Domínio, POO e UML | Miguel | [PR #4](https://github.com/pitado/planoB/pull/4) |
+| 13/11/2026 | Interface, rotas e testes HTTP | Lucas Guimarães Pereira | [PR #5](https://github.com/pitado/planoB/pull/5) |
+| 13/11/2026 | PostgreSQL, JDBC e histórico | Gustavo Krensiglova Lubacheski | [PR #6](https://github.com/pitado/planoB/pull/6) |
+| 13/11/2026 | Integração e testes completos | Equipe / assistência IA | [Actions](https://github.com/pitado/planoB/actions) |
+
+**Transparência:** implementações e revisões receberam assistência de IA. Commits feitos por uma conta conectada não provam que seu titular escreveu manualmente o código; a equipe precisa estudar e saber explicar suas contribuições efetivas.
+
+## Estrutura
 
 ```text
-src/
-  main/java/       Domínio, serviços e contratos; web em construção
-  test/java/       Testes de domínio
-database/          Esquema e seed fictícia do PostgreSQL
-docs/              Arquitetura, diagramas, cronograma e documentação
-scripts/           Ferramentas de teste e validação
-.github/workflows/ Integração contínua
+src/main/java/br/com/planob/  Domínio, serviço, JDBC e HTTP
+src/main/resources/static/    CSS responsivo
+src/test/java/br/com/planob/  Testes de domínio, web e banco
+database/                     schema.sql, seed.sql e instruções
+docs/                         Diagramas, escopo e cronograma
+scripts/                      Scripts de teste
+.github/workflows/            CI
 ```
 
-Para conhecer a arquitetura, consulte o [documento de escopo](docs/escopo-e-arquitetura.md), a [modelagem de classes](docs/diagrams/classes.puml) e o [DER planejado](docs/diagrams/der.mmd). As imagens e a documentação final serão geradas após a integração dos módulos.
+O projeto se relaciona aos **ODS 11 (Cidades e Comunidades Sustentáveis)** e **13 (Ação Climática)**. Veja também [cronograma](docs/cronograma.md), [validação](docs/validacao.md) e [arquitetura](docs/escopo-e-arquitetura.md).
 
-## Segurança e responsabilidade
-
-O Plano B tem como objetivo **organizar informações e apoiar a preparação e a recuperação**, não substituir a Defesa Civil, os bombeiros, a concessionária de energia ou outras fontes oficiais.
-
-A versão atual utiliza dados fictícios e **não possui autenticação nem autorização suficientes para exposição pública**. Antes de disponibilizá-la para uma comunidade real, será necessário adicionar verificação de relatos, proteção de dados, controles de acesso e procedimentos de moderação.
-
-## Sobre o projeto
-
-O Plano B se inspira em necessidades concretas de continuidade urbana e se relaciona aos **ODS 11 — Cidades e Comunidades Sustentáveis** e **ODS 13 — Ação Climática**.
-
-O código é organizado de forma colaborativa, com atividades e decisões técnicas registradas na pasta [`docs/`](docs/). A evolução do projeto pode ser acompanhada pelas sprints e pelo histórico de contribuições.
+**Pendência acadêmica:** a primeira entrega não foi realizada. É necessário consultar o professor sobre o critério de aderência ao planejamento.

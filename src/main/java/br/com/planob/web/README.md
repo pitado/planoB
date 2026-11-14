@@ -15,7 +15,11 @@ java -cp ".build/classes:src/main/resources" br.com.planob.web.WebMain
 
 Abra http://127.0.0.1:8080. Para alterar a porta: `PORT=8081 java -cp ".build/classes:src/main/resources" br.com.planob.web.WebMain`.
 
-**Os dados são armazenados apenas em memória** neste modo de demonstração e desaparecem ao encerrar o Java. Gustavo fará a implementação JDBC/PostgreSQL utilizando os contratos em `repository/`; o servidor recebe esses repositórios no construtor de `WebApp`.
+**Os dados são armazenados apenas em memória** neste modo de demonstração e desaparecem ao encerrar o Java. A persistência JDBC/PostgreSQL da Sprint 3 está implementada e é usada pelo ponto de entrada `br.com.planob.Main`. O servidor recebe os repositórios no construtor de `WebApp`, sem SQL na camada web.
+
+## Executar o sistema completo com PostgreSQL
+
+Na raiz do repositório: `docker compose up -d postgres` e `mvn -q compile exec:java`. O endereço é `http://127.0.0.1:8080`. Execute `bash scripts/test-http-db.sh` para validar CRUD e histórico persistentes pelo HTTP. O comando `WebMain` descrito acima serve apenas à demonstração isolada, sem banco.
 
 ## Rotas implementadas
 
@@ -44,4 +48,4 @@ A interface não contém SQL; `OcorrenciaService`, `OcorrenciaRepository` e `Aca
 
 Servidor ligado somente em `127.0.0.1`: sem autenticação, sem autorização por usuário, sem moderação e sem persistência no modo de demonstração. **Não publicar na internet nem registrar dados reais de terceiros**. O índice calculado é orientativo, não uma avaliação oficial de urgência.
 
-A Sprint 3 acrescentará persistência real; a integração final só deve ser considerada concluída depois de testes HTTP com PostgreSQL.
+A Sprint 3 acrescentou persistência real; os testes HTTP + JDBC contra PostgreSQL estão em `WebDbTests` e devem passar no GitHub Actions antes de considerar a integração validada.

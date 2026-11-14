@@ -1,27 +1,38 @@
-# Validação do Plano B após a divisão em sprints
+# Validação da AEP — Plano B
 
-**Situação em 13/11/2026:** a branch `main` é um ponto de partida de desenvolvimento com domínio Java e contratos de persistência. O MVP completo foi arquivado em [`arquivo/mvp-completo-2026-11-13`](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13), sem alteração retroativa dos commits.
+A implementação é um **protótipo acadêmico local** de resiliência urbana alinhado aos ODS 11 e 13. Repositório: https://github.com/pitado/planoB
 
-| Critério | Evidência na main | Responsável / situação |
+## Evidências técnicas
+
+| Critério do segundo bimestre | Evidência no código | Comprovação |
 |---|---|---|
-| Planejamento anterior | Não entregue no primeiro bimestre | Depende de orientação do professor |
-| Classe abstrata, herança e polimorfismo | `Ocorrencia`, subclasses e `@Override`; política de transições e justificativa do índice | [Sprint 1 integrada — PR #4](https://github.com/pitado/planoB/pull/4) |
-| CRUD funcional pela interface | Contrato `OcorrenciaRepository` e serviço | Pendente Sprint 2 + integração |
-| CRUD persistente no PostgreSQL | `JdbcOcorrenciaRepository`, `JdbcAcaoRepository`, `JdbcIntegrationTests` | Sprint 3 em PR (`sprint/gustavo-postgresql`); aguardando CI |
-| Scripts SQL em `/database` | `schema.sql`, `seed.sql` e README | Sprint 3 em PR |
-| UML e DER | Arquivos de modelagem em `docs/diagrams` | Revisar após PRs |
-| Testes e prova de funcionamento | `bash scripts/test-domain.sh`; `bash scripts/test-db.sh` (PostgreSQL real) | Verificar Actions na main; reativar integração após PRs |
+| Aderência ao escopo | Requisitos RF01–RF08 do README; entidades Ocorrência/Ação/Histórico | Confrontar com o [PDF](../README.md) e o 1º bimestre (não entregue) |
+| POO | Classe abstrata `Ocorrencia`, quatro subclasses, `pesoOperacional()` com `@Override`, interfaces de repositório | `bash scripts/test-domain.sh` |
+| CRUD funcional | `WebApp` + `OcorrenciaService`, formulários HTML, filtros, edição, exclusão confirmada | `bash scripts/test-web.sh` |
+| Persistência | `database/schema.sql`, `seed.sql`, JDBC, transações, FK e histórico | `bash scripts/test-db.sh` no PostgreSQL 16 |
+| Integração ponta a ponta | `br.com.planob.Main` injeta JDBC em `WebApp`; fluxo HTTP e reinício | `bash scripts/test-http-db.sh`, com PostgreSQL real |
+| Colaboração | [PR #4](https://github.com/pitado/planoB/pull/4), [PR #5](https://github.com/pitado/planoB/pull/5), [PR #6](https://github.com/pitado/planoB/pull/6) | Revisar atividades efetivas e assistência por IA |
+| CI | [GitHub Actions](https://github.com/pitado/planoB/actions) | Confirmar jobs: domínio, interface-http e postgresql |
 
-**Evidência de CI do domínio:** [GitHub Actions na main, aprovado](https://github.com/pitado/planoB/actions/runs/43488876141). A interface HTTP e o PostgreSQL continuam sendo atividades abertas de Lucas e Gustavo, respectivamente.
+Os testes de memória existem para isolar a camada HTTP. **Não servem como evidência de persistência**. Os testes JDBC e HTTP+JDBC usam banco PostgreSQL real e verificam a sobrevivência do registro a um reinício do servidor, além da exclusão em cascata.
 
-**O que não é permitido afirmar:** que a versão atual da `main` já tem CRUD completo em PostgreSQL, interface web funcional ou que os integrantes participaram de commits antigos. Os testes históricos aprovados pertencem ao MVP arquivado.
+## Execução para a banca
 
-## Critérios finais para a entrega
+1. `docker compose up -d postgres`
+2. `mvn -q compile exec:java`
+3. Abrir `http://127.0.0.1:8080` (somente local).
+4. Cadastrar ocorrência fictícia e consultar o registro.
+5. Alterar a situação para "Em análise" e verificar histórico.
+6. Criar ação e concluí-la; reiniciar o servidor e observar persistência.
+7. Excluir com confirmação; conferir remoção das ações e do histórico.
+8. Mostrar `Ocorrencia` abstrata, subclasses com `@Override` e diagramas UML/DER.
 
-- [ ] Sprint 1 revisada e integrada.
-- [ ] Sprint 2 revisada e integrada.
-- [ ] Sprint 3 revisada e integrada.
-- [ ] Fluxo ponta a ponta via HTTP e PostgreSQL real aprovado.
-- [ ] Arquivos SQL, diagramas, cronograma e PDF compatíveis com a versão final.
-- [ ] Nomes, RAs e contribuições verdadeiras registrados.
-- [ ] Situação da primeira entrega esclarecida com o professor.
+## Itens acadêmicos que dependem da equipe
+
+- [ ] Preencher/confirmar identificação individual no documento de submissão (RAs devem permanecer fora do GitHub público).
+- [ ] Revisar código e explicar as contribuições efetivas de Miguel, Lucas e Gustavo; assistência de IA não equivale a participação manual.
+- [ ] Conferir o PDF final, os diagramas e os requisitos com o repositório integrado.
+- [ ] Esclarecer com o professor o critério de aderência: **a 1ª entrega não foi realizada**.
+- [ ] Realizar demonstração manual em máquina com Java 21, Maven e Docker.
+
+**Segurança:** sem autenticação, sem validação de relatos e sem autorização para uso público; dados fictícios apenas.
