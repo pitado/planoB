@@ -53,3 +53,5 @@ jobs:
           java-version: '21'
       - name: Testar persistência JDBC e transações no PostgreSQL 16
         run: bash scripts/test-db.sh
+      - name: Testar CRUD HTTP persistente, reinício e exclusão em cascata
+        run: bash scripts/test-http-db.sh

@@ -1,14 +1,15 @@
-# Cronograma de trabalho por sprints
+# Cronograma de execução — Plano B
 
-O protótipo anterior foi preservado na branch `arquivo/mvp-completo-2026-11-13`. O cronograma abaixo refere-se à **reorganização atual**, não à entrega do primeiro bimestre.
+**Registro do trabalho no segundo bimestre, em 13/11/2026.** O primeiro bimestre não teve entrega; esta tabela não deve ser apresentada como cronograma enviado anteriormente.
 
-| Etapa | Responsável | Evidência e aceite | Situação |
-| --- | --- | --- | --- |
-| Sprint 1 — Regras e testes de domínio | Miguel | [PR #4](https://github.com/pitado/planoB/pull/4) e [CI aprovado](https://github.com/pitado/planoB/actions/runs/43488876141) | Concluída (implementação assistida, revisar para apresentação) |
-| Sprint 2 — UI, rotas e testes HTTP | Lucas Guimarães Pereira (revisão pendente) | [PR #5](https://github.com/pitado/planoB/pull/5) e [CI aprovado](https://github.com/pitado/planoB/actions/runs/43526464065) | Implementada com assistência de IA; PR em revisão; validar participação efetiva |
-| Sprint 3 — SQL, JDBC e testes reais | Gustavo Krensiglova Lubacheski | [Issue #3](https://github.com/pitado/planoB/issues/3), PR e CI | A iniciar |
-| Integração, revisão e demonstração | Grupo | CI integrado e material final | A iniciar |
+| Data de referência | Etapa | Responsável | Evidência e situação |
+|---|---|---|---|
+| 13/11/2026 | Domínio, herança, polimorfismo e UML | Miguel | [PR #4](https://github.com/pitado/planoB/pull/4) — integrada |
+| 13/11/2026 | Interface HTML/CSS, rotas HTTP, CRUD visual | Lucas Guimarães Pereira | [PR #5](https://github.com/pitado/planoB/pull/5) — integrada; implementação assistida por IA |
+| 13/11/2026 | PostgreSQL, SQL parametrizado, histórico | Gustavo Krensiglova Lubacheski | [PR #6](https://github.com/pitado/planoB/pull/6) — integrada |
+| 13/11/2026 | Conexão entre HTTP/JDBC e testes ponta a ponta | Equipe / integração assistida | [Actions](https://github.com/pitado/planoB/actions) — verificar execução mais recente |
+| Antes da submissão | Demonstração, revisão e documentos finais | Equipe | Conferir PDF, RA, explicação técnica e orientações do professor |
 
-Datas de início, conclusão e responsabilidades detalhadas serão preenchidas a partir das contribuições reais.
+O protótipo anterior permanece em [arquivo/mvp-completo-2026-11-13](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13); não houve reatribuição retroativa de autoria. O trabalho de IA e de contas conectadas deve ser descrito honestamente; cada integrante precisa revisar o código e saber explicá-lo.
 
-> Identificação: nomes completos de Lucas e Gustavo informados; os RAs ficam restritos ao documento enviado à instituição, não ao repositório público. A identificação de Miguel e as contribuições efetivas serão confirmadas antes da entrega. Não atribuir retrospectivamente os commits já existentes.
+**Privacidade:** os RAs não são publicados no GitHub público. Devem constar apenas da entrega institucional, com confirmação dos integrantes.

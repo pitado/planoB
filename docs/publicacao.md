@@ -16,4 +16,10 @@ O histórico Git local original também está preservado no arquivo Plano-B-Hist
 
 ## Reorganização por sprints (13/11/2026)
 
-O código completo anterior continua disponível na branch `arquivo/mvp-completo-2026-11-13`. A branch `main` foi reduzida a uma base de domínio compilável, com issues separadas por módulo para Miguel, Lucas e Gustavo. Os commits antigos não são atribuídos a novos integrantes. A entrega final será revalidada após as PRs.
+O código completo anterior continua disponível na branch `arquivo/mvp-completo-2026-11-13`. A branch `main` foi reduzida temporariamente a uma base de domínio compilável e depois recebeu as sprints de Miguel (PR #4), Gustavo (PR #6) e Lucas (PR #5). A integração final adiciona a inicialização HTTP com JDBC e testes de banco via navegador. Os commits antigos não são atribuídos retroativamente a novos integrantes; cada participação efetiva deve ser verificada pela equipe.
+
+## Execução final integrada
+
+`docker compose up -d postgres` e `mvn -q compile exec:java` iniciam banco e site. Os testes `scripts/test-domain.sh`, `scripts/test-web.sh`, `scripts/test-db.sh` e `scripts/test-http-db.sh` validam POO, HTTP, JDBC e o fluxo persistente. A aplicação continua local, sem autenticação nem validação de relatos.
+
+O PDF do trabalho, atualizado após a integração, deve trazer link público correto, requisitos RF01–RF08, cronograma por integrante e diagramas; a falta da primeira entrega deve ser informada com transparência.

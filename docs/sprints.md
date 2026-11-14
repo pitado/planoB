@@ -1,58 +1,24 @@
-# Sprints do Plano B — trabalho real em equipe
+# Sprints do Plano B — registro do trabalho em equipe
 
-## Contexto
+O projeto foi reorganizado no **segundo bimestre, em 13/11/2026**. O código anterior ficou preservado na branch [arquivo/mvp-completo-2026-11-13](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13), sem falsificação de datas ou autorias.
 
-O projeto foi reorganizado em 13/11/2026 para distribuir responsabilidades de forma mais equilibrada. O protótipo anterior continua preservado, sem alteração de histórico, em [`arquivo/mvp-completo-2026-11-13`](https://github.com/pitado/planoB/tree/arquivo/mvp-completo-2026-11-13). **O código anterior não se transforma em autoria de Lucas ou Gustavo por estar arquivado.** Cada integrante deverá estudar, escrever ou modificar código de maneira substantiva, testar e abrir sua própria Pull Request.
+| Sprint | Responsável | Escopo | Evidência |
+|---|---|---|---|
+| 1 — Domínio e regras de negócio | Miguel | Validações, classes abstratas, transições de status, índice explicável, UML e testes | [PR #4](https://github.com/pitado/planoB/pull/4) |
+| 2 — Interface web | Lucas Guimarães Pereira | Painel, listagem, formulários, filtros, ações, histórico e testes HTTP | [PR #5](https://github.com/pitado/planoB/pull/5) |
+| 3 — PostgreSQL | Gustavo Krensiglova Lubacheski | SQL, JDBC parametrizado, integridade, transações, testes reais | [PR #6](https://github.com/pitado/planoB/pull/6) |
+| Integração | Equipe / assistência de IA | Inicialização HTTP com JDBC, testes ponta a ponta, documentação final | [Actions](https://github.com/pitado/planoB/actions) |
 
-## Sprint 1 — Miguel: núcleo e regras de negócio
+## Como os módulos se conectam
 
-**Issue:** [#1](https://github.com/pitado/planoB/issues/1)
-**Branch de trabalho:** `sprint/miguel-dominio`
+Navegador → `WebApp` (Lucas) → `OcorrenciaService`/domínio (Miguel) → contratos de repositório → implementações JDBC (Gustavo) → PostgreSQL. Os testes do sistema completo estão em `WebDbTests` e `scripts/test-http-db.sh`.
 
-Área: `src/main/java/br/com/planob/domain/`, `service/`, `src/test/java/` e UML.
+## Critérios de integração
 
-Entregar política real de transições de status e validações, explicação do índice orientativo, testes positivos e negativos, ajuste de UML e documentação de decisões.
+- [x] Sprint de domínio integrada na `main`.
+- [x] Persistência PostgreSQL integrada na `main`.
+- [x] Interface HTTP integrada na `main` com CI que inclui POO, web e JDBC.
+- [ ] Validar no GitHub Actions a inicialização integrada e o novo teste HTTP+PostgreSQL.
+- [ ] Revisar o código individualmente, registrar contribuição real, validar documento de submissão.
 
-**Critério de aceite:** domínio compila em Java 21, testes passam e a PR demonstra mudanças funcionais próprias.
-
-**Situação: concluída e integrada.** [PR #4](https://github.com/pitado/planoB/pull/4), com políticas de status, explicação de prioridade, testes e UML. [CI aprovado na main](https://github.com/pitado/planoB/actions/runs/43488876141). Implementação assistida por IA a pedido do responsável; a revisão e explicação acadêmica continuam sendo responsabilidade de quem apresentar.
-
-## Sprint 2 — Lucas Guimarães Pereira: interface web
-
-**Issue:** [#2](https://github.com/pitado/planoB/issues/2)
-**Branch de trabalho:** `sprint/lucas-interface`
-
-Área: `src/main/java/br/com/planob/web/`, `src/main/resources/static/`, testes HTTP e interface.
-
-Entregar páginas do painel, listagem, cadastro, edição, detalhe, exclusão confirmada, ações de recuperação e feedback de erros. Consumir as interfaces de repositórios e o serviço, sem SQL direto na camada web.
-
-**Critério de aceite:** demonstrar CRUD via HTTP com repositórios de teste, layout responsivo e testes próprios na PR.
-
-## Sprint 3 — Gustavo Krensiglova Lubacheski: PostgreSQL e persistência
-
-**Issue:** [#3](https://github.com/pitado/planoB/issues/3)
-**Branch de trabalho:** `sprint/gustavo-postgresql`
-
-Área: `database/`, `src/main/java/br/com/planob/repository/`, `config/` e testes JDBC.
-
-Entregar script SQL de criação e seed fictícia, repositórios JDBC parametrizados, persistência de ocorrência e ação, histórico de status em transação e testes em PostgreSQL 16 real.
-
-**Critério de aceite:** CRUD e integridade relacional comprovados no banco real, com CI verde e DER coerente com o esquema.
-
-## Acordos de integração
-
-1. Cada participante cria commits com sua própria conta e descreve o que efetivamente alterou.
-2. Uma PR por sprint, vinculada à sua issue; revisão antes de mesclar.
-3. A branch `main` é uma **base compilável**, não a versão completa do site; integraremos as Sprints 1, 2 e 3 quando os critérios forem cumpridos.
-4. Atualizar o `README.md`, a `docs/validacao.md`, o cronograma e a documentação final após a integração.
-5. Não remover nem reescrever o histórico anterior para sugerir datas ou autorias falsas.
-
-## Matriz de responsabilidades
-
-| Integrante | Escopo predominante | Prova de contribuição |
-| --- | --- | --- |
-| Miguel | Domínio, regras e integração | Commits e PR da issue #1 |
-| Lucas Guimarães Pereira | Interface, rotas e testes HTTP | Commits e PR da issue #2 |
-| Gustavo Krensiglova Lubacheski | Banco, JDBC e testes reais | Commits e PR da issue #3 |
-
-Os nomes completos de Lucas e Gustavo foram informados. **Os RAs não são publicados neste repositório público**; devem constar apenas do documento de identificação para entrega à instituição, com ciência dos integrantes. Ainda é necessário confirmar os dados de Miguel e registrar as contribuições reais de cada pessoa.
+**Atenção à autoria:** parte do código e de commits utilizou assistência de IA e conexões GitHub. A associação de um commit à conta de um participante não significa que esse participante digitou manualmente seu conteúdo. Cada integrante deve revisar, entender e relatar apenas aquilo que de fato fez. Os RAs ficam somente na documentação acadêmica restrita.

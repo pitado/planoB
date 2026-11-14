@@ -1,6 +1,7 @@
-> **Estado atual:** este arquivo descreve a arquitetura-alvo. A interface e as implementações JDBC serão reintegradas pelas sprints [Lucas](https://github.com/pitado/planoB/issues/2) e [Gustavo](https://github.com/pitado/planoB/issues/3). Para a versão completa anterior, consulte a branch `arquivo/mvp-completo-2026-11-13`.
-
 # Descoberta, concepção e justificativa técnica
+
+**Implementação integrada:** domínio Java 21 + interface HTTP local + repositórios JDBC + PostgreSQL 16. Comprovada nos testes automatizados do GitHub Actions. O site inicia com `mvn -q compile exec:java` após `docker compose up -d postgres`. O modo de memória é mantido exclusivamente para testes HTTP isolados.
+
 
 ## Dor e partes interessadas
 
@@ -20,7 +21,7 @@ Uma ocorrência pode ter zero ou muitas ações de recuperação (relacionamento
 
 ### Requisitos funcionais
 
-Ver tabela RF01–RF08 no README; todos são contemplados pelo escopo do protótipo.
+A matriz RF01–RF08 e o cronograma com responsáveis estão no [README](../README.md). Incluem cadastro, consulta, edição, exclusão, prioridade orientativa, ações, histórico e painel.
 
 ### Requisitos não funcionais
 
@@ -47,6 +48,12 @@ Ver tabela RF01–RF08 no README; todos são contemplados pelo escopo do protót
 ## Escopo fora do MVP
 
 Sem geolocalização automática, notificações meteorológicas, autenticação, verificação de relatos públicos, despachos de equipes, integração com serviços oficiais ou publicação na internet. Essas funcionalidades exigem requisitos adicionais de segurança e governança.
+
+## Validação de ponta a ponta
+
+Além dos testes de domínio, HTTP isolado e PostgreSQL/JDBC, o `WebDbTests` verifica o fluxo real do formulário HTML ao banco, a persistência após reiniciar o servidor e o `ON DELETE CASCADE` das ações e do histórico.
+
+A aplicação é deliberadamente local (`127.0.0.1`), sem autenticação, moderação ou prova de relatos reais. Não deve ser publicada como serviço comunitário.
 
 ## Situação acadêmica
 

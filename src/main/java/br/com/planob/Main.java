@@ -1,24 +1,30 @@
 package br.com.planob;
 
-import br.com.planob.domain.Localizacao;
-import br.com.planob.domain.Ocorrencia;
-import br.com.planob.domain.OcorrenciaFactory;
-import br.com.planob.domain.TipoOcorrencia;
+import br.com.planob.config.Database;
+import br.com.planob.repository.JdbcAcaoRepository;
+import br.com.planob.repository.JdbcOcorrenciaRepository;
+import br.com.planob.web.WebApp;
+import java.util.concurrent.CountDownLatch;
 
-/** Ponto de entrada temporário enquanto interface e persistência são implementadas nas sprints. */
+/**
+ * Entrada da aplicação INTEGRADA: HTTP -> serviços -> JDBC -> PostgreSQL.
+ * O modo volátil isolado da Sprint Lucas permanece em web.WebMain para testes.
+ */
 public final class Main {
     private Main() {}
 
-    public static void main(String[] args) {
-        Ocorrencia demonstracao = OcorrenciaFactory.nova(
-                TipoOcorrencia.VIA_OBSTRUIDA,
-                new Localizacao("Bairro fictício", "Rua Exemplo"),
-                "Ocorrência simulada para verificar o domínio.",
-                3);
-
-        System.out.println("Plano B — núcleo de domínio em desenvolvimento");
-        System.out.println("Exemplo simulado: " + demonstracao.tipo().descricao());
-        System.out.println("Índice orientativo: " + demonstracao.calcularIndiceImpacto());
-        System.out.println("Módulos de interface e PostgreSQL: sprints de Lucas e Gustavo.");
+    public static void main(String[] args) throws Exception {
+        Database database = Database.doAmbiente();
+        if (!database.disponivel()) {
+            throw new IllegalStateException(
+                    "PostgreSQL indisponível. Inicie 'docker compose up -d postgres' e confira DB_URL, DB_USER, DB_PASSWORD.");
+        }
+        int porta = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+        WebApp web = new WebApp(new JdbcOcorrenciaRepository(database), new JdbcAcaoRepository(database));
+        int portaAtiva = web.iniciar(porta);
+        Runtime.getRuntime().addShutdownHook(new Thread(web::parar));
+        System.out.println("Plano B — HTTP + PostgreSQL: http://127.0.0.1:" + portaAtiva);
+        System.out.println("Protótipo acadêmico local: use dados fictícios. Não publicar sem autenticação.");
+        new CountDownLatch(1).await();
     }
 }
