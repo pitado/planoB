@@ -6,15 +6,15 @@ A implementação é um **protótipo acadêmico local** de resiliência urbana a
 
 | Critério do segundo bimestre | Evidência no código | Comprovação |
 |---|---|---|
-| Aderência ao escopo | Requisitos RF01–RF08 do README; entidades Ocorrência/Ação/Histórico | Confrontar com o [PDF](../README.md) e o 1º bimestre (não entregue) |
+| Aderência ao escopo | Requisitos RF01–RF08 do README; entidades Ocorrência/Ação/Histórico | Confrontar com o README e o PDF acadêmico atualizado (distribuído separadamente); 1º bimestre não entregue |
 | POO | Classe abstrata `Ocorrencia`, quatro subclasses, `pesoOperacional()` com `@Override`, interfaces de repositório | `bash scripts/test-domain.sh` |
 | CRUD funcional | `WebApp` + `OcorrenciaService`, formulários HTML, filtros, edição, exclusão confirmada | `bash scripts/test-web.sh` |
 | Persistência | `database/schema.sql`, `seed.sql`, JDBC, transações, FK e histórico | `bash scripts/test-db.sh` no PostgreSQL 16 |
 | Integração ponta a ponta | `br.com.planob.Main` injeta JDBC em `WebApp`; fluxo HTTP e reinício | `bash scripts/test-http-db.sh`, com PostgreSQL real |
 | Colaboração | [PR #4](https://github.com/pitado/planoB/pull/4), [PR #5](https://github.com/pitado/planoB/pull/5), [PR #6](https://github.com/pitado/planoB/pull/6) | Revisar atividades efetivas e assistência por IA |
-| CI | [GitHub Actions](https://github.com/pitado/planoB/actions) | Confirmar jobs: domínio, interface-http e postgresql |
+| CI | [Run da main #43533543082](https://github.com/pitado/planoB/actions/runs/43533543082) | Jobs domínio, interface-http e postgresql aprovados, inclusive HTTP + JDBC |
 
-Os testes de memória existem para isolar a camada HTTP. **Não servem como evidência de persistência**. Os testes JDBC e HTTP+JDBC usam banco PostgreSQL real e verificam a sobrevivência do registro a um reinício do servidor, além da exclusão em cascata.
+A [execução #43533543082](https://github.com/pitado/planoB/actions/runs/43533543082) na `main` concluiu com sucesso. Os testes de memória existem para isolar a camada HTTP. **Não servem como evidência de persistência**. Os testes JDBC e HTTP+JDBC usam banco PostgreSQL real e verificam a sobrevivência do registro a um reinício do servidor, além da exclusão em cascata.
 
 ## Execução para a banca
 
@@ -31,7 +31,7 @@ Os testes de memória existem para isolar a camada HTTP. **Não servem como evid
 
 - [ ] Preencher/confirmar identificação individual no documento de submissão (RAs devem permanecer fora do GitHub público).
 - [ ] Revisar código e explicar as contribuições efetivas de Miguel, Lucas e Gustavo; assistência de IA não equivale a participação manual.
-- [ ] Conferir o PDF final, os diagramas e os requisitos com o repositório integrado.
+- [x] Gerar PDF final com requisitos, UML, DER e cronograma. **Pendente:** conferência e anexação pela equipe na entrega institucional.
 - [ ] Esclarecer com o professor o critério de aderência: **a 1ª entrega não foi realizada**.
 - [ ] Realizar demonstração manual em máquina com Java 21, Maven e Docker.
 

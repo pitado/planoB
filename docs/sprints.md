@@ -18,7 +18,7 @@ Navegador → `WebApp` (Lucas) → `OcorrenciaService`/domínio (Miguel) → con
 - [x] Sprint de domínio integrada na `main`.
 - [x] Persistência PostgreSQL integrada na `main`.
 - [x] Interface HTTP integrada na `main` com CI que inclui POO, web e JDBC.
-- [ ] Validar no GitHub Actions a inicialização integrada e o novo teste HTTP+PostgreSQL.
+- [x] Testar no GitHub Actions o novo fluxo HTTP + PostgreSQL (run [#43533543082](https://github.com/pitado/planoB/actions/runs/43533543082)); integração [PR #7](https://github.com/pitado/planoB/pull/7) mesclada.
 - [ ] Revisar o código individualmente, registrar contribuição real, validar documento de submissão.
 
 **Atenção à autoria:** parte do código e de commits utilizou assistência de IA e conexões GitHub. A associação de um commit à conta de um participante não significa que esse participante digitou manualmente seu conteúdo. Cada integrante deve revisar, entender e relatar apenas aquilo que de fato fez. Os RAs ficam somente na documentação acadêmica restrita.
